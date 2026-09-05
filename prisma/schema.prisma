@@ -1,0 +1,288 @@
+// Gaia: O Preludio — ferramenta de mesa
+// Uma campanha unica; jogadores podem ter varios personagens.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Papel {
+  MESTRE
+  JOGADOR
+}
+
+model Usuario {
+  id          String       @id @default(cuid())
+  nome        String
+  login       String       @unique
+  senhaHash   String
+  papel       Papel        @default(JOGADOR)
+  criadoEm    DateTime     @default(now())
+  personagens Personagem[]
+}
+
+// ---------------------------------------------------------------- Personagem
+
+model Personagem {
+  id       String  @id @default(cuid())
+  usuario  Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  usuarioId String
+
+  nome           String
+  jogadorNome    String  @default("")
+  legado         String  @default("")
+  nivelDespertar Int     @default(1)
+  retratoUrl     String?
+
+  movimentacao     String @default("")
+  bloqueio         String @default("")
+  percepcaoPassiva String @default("")
+
+  pvAtual Int @default(0)
+  pvTemp  Int @default(0)
+  pvMax   Int @default(0)
+  peAtual Int @default(0)
+  peTemp  Int @default(0)
+  peMax   Int @default(0)
+  exaustao Int @default(0) // 0 a 5
+
+  moedasPrata     Int @default(0)
+  moedasOuro      Int @default(0)
+  moedasImperiais Int @default(0)
+  potencia        Int @default(0)
+  pontuacaoUnidade Int @default(0)
+
+  maestrias         String @default("")
+  habilidadesLegado String @default("")
+  anotacoes         String @default("")
+
+  arquivado Boolean  @default(false)
+  criadoEm  DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  parametros    Parametro[]
+  conhecimentos Conhecimento[]
+  equipamentos  Equipamento[]
+  habilidades   HabilidadeCaminho[]
+  itens         ItemInventario[]
+  recompensas   Recompensa[]
+  combatentes   Combatente[]
+
+  @@index([usuarioId])
+}
+
+model Parametro {
+  id           String     @id @default(cuid())
+  personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+  personagemId String
+  nome         String // um dos 8 fixos
+  valor        Int    @default(0) // 0 a 6
+
+  @@unique([personagemId, nome])
+}
+
+model Conhecimento {
+  id           String     @id @default(cuid())
+  personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+  personagemId String
+  nome         String // um dos 14 fixos
+  valor        Int     @default(0) // 0 a 6
+  temMaestria  Boolean @default(false)
+
+  @@unique([personagemId, nome])
+}
+
+enum TipoEquipamento {
+  ARMA
+  ARMADURA
+}
+
+model Equipamento {
+  id           String          @id @default(cuid())
+  personagem   Personagem      @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+  personagemId String
+  tipo         TipoEquipamento
+  nome         String          @default("")
+  dano         String          @default("") // armas
+  alcance      String          @default("") // armas
+  bloqueio     String          @default("") // armaduras / escudos
+  inaptidao    String          @default("") // armaduras / escudos
+  propriedade  String          @default("")
+  ordem        Int             @default(0)
+
+  @@index([personagemId])
+}
+
+enum TipoAcao {
+  INICIATIVA
+  ATIVA
+  PASSIVA
+  RAPIDA
+  SIMPLES
+  ACELERADA
+}
+
+model HabilidadeCaminho {
+  id           String     @id @default(cuid())
+  personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+  personagemId String
+
+  nome           String   @default("")
+  tipoAcao       TipoAcao @default(ATIVA)
+  custoPe        Int      @default(0)
+  conjuracao     Boolean  @default(false)
+  tipoConjuracao String   @default("")
+  duracao        String   @default("")
+  pagina         String   @default("")
+  aprimoramentoA Boolean  @default(false)
+  aprimoramentoB Boolean  @default(false)
+  descricao      String   @default("")
+  ordem          Int      @default(0)
+
+  @@index([personagemId])
+}
+
+model ItemInventario {
+  id           String     @id @default(cuid())
+  personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+  personagemId String
+  nome         String     @default("")
+  quantidade   Int        @default(1)
+  peso         String     @default("")
+  categoria    String     @default("")
+  descricao    String     @default("")
+  ordem        Int        @default(0)
+
+  @@index([personagemId])
+}
+
+// ------------------------------------------------------------------ Criatura
+
+enum CategoriaSer {
+  COMUNS
+  NAO_VIVOS
+  ARTIFICIAIS
+  FERAIS
+  ELEMENTAIS
+  ABISSAIS
+  DO_VEU
+  PRIMAIS
+  CELESTIAIS
+}
+
+model Criatura {
+  id         String       @id @default(cuid())
+  nome       String
+  nivel      Int          @default(1)
+  poder      String       @default("")
+  dificuldade String      @default("")
+  categoria  CategoriaSer @default(COMUNS)
+
+  parametrosOfensivos String @default("")
+  parametrosDefensivos String @default("")
+  movimentacao        String @default("")
+  percepcaoPassiva    String @default("")
+  golpeBrutal         String @default("")
+  evocacaoMistica     String @default("")
+
+  pvMax Int @default(0)
+  peMax Int @default(0)
+
+  caracteristicas String @default("")
+  anotacoes       String @default("")
+
+  arquivada Boolean  @default(false)
+  criadoEm  DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  combatentes Combatente[]
+
+  @@index([categoria])
+}
+
+// ------------------------------------------------------------------ Combate
+
+model CombateAtivo {
+  id              String   @id @default(cuid())
+  nome            String   @default("Combate")
+  rodadaAtual     Int      @default(1)
+  turnoAtualIndex Int      @default(0)
+  atualizadoEm    DateTime @updatedAt
+
+  combatentes Combatente[]
+}
+
+enum TipoCombatente {
+  PERSONAGEM
+  CRIATURA
+  AVULSO
+}
+
+model Combatente {
+  id        String       @id @default(cuid())
+  combate   CombateAtivo @relation(fields: [combateId], references: [id], onDelete: Cascade)
+  combateId String
+
+  tipo         TipoCombatente
+  personagem   Personagem?    @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+  personagemId String?
+  criatura     Criatura?      @relation(fields: [criaturaId], references: [id], onDelete: SetNull)
+  criaturaId   String?
+
+  nomeExibicao    String
+  valorIniciativa Int    @default(0)
+  ordem           Int    @default(0)
+
+  // Usados por criaturas e entradas avulsas. Combatentes do tipo PERSONAGEM
+  // leem e gravam PV/PE direto na ficha do personagem.
+  pvAtual Int @default(0)
+  pvTemp  Int @default(0)
+  pvMax   Int @default(0)
+  peAtual Int @default(0)
+  peTemp  Int @default(0)
+  peMax   Int @default(0)
+
+  anotacao String @default("")
+
+  @@index([combateId])
+}
+
+// --------------------------------------------------------------- Recompensas
+
+enum StatusRecompensa {
+  PENDENTE
+  ENTREGUE
+}
+
+model Recompensa {
+  id         String @id @default(cuid())
+  nome       String
+  descricao  String @default("")
+  categoria  String @default("")
+  quantidade Int    @default(1)
+  peso       String @default("")
+
+  personagemDestino   Personagem? @relation(fields: [personagemDestinoId], references: [id], onDelete: SetNull)
+  personagemDestinoId String?
+
+  status     StatusRecompensa @default(PENDENTE)
+  criadoEm   DateTime         @default(now())
+  entregueEm DateTime?
+
+  @@index([status])
+}
+
+// ---------------------------------------------------------- Notas de sessao
+
+model AnotacaoSessao {
+  id       String   @id @default(cuid())
+  titulo   String
+  data     DateTime @default(now())
+  texto    String   @default("")
+  criadoEm DateTime @default(now())
+}

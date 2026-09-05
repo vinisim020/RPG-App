@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--fonte-corpo), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--fonte-titulo), Georgia, "Times New Roman", serif;
+
+  --color-ink: oklch(0.14 0.012 30);
+  --color-panel: oklch(0.11 0.012 28);
+  --color-card: oklch(0.18 0.014 28);
+  --color-card-hi: oklch(0.205 0.02 28);
+  --color-line: oklch(0.3 0.02 30);
+  --color-line-soft: oklch(0.25 0.015 30);
+  --color-track: oklch(0.26 0.02 30);
+
+  --color-fg: oklch(0.92 0.006 30);
+  --color-fg-strong: oklch(0.94 0.006 30);
+  --color-fg-soft: oklch(0.82 0.01 30);
+  --color-fg-dim: oklch(0.72 0.01 30);
+  --color-muted: oklch(0.6 0.02 30);
+  --color-faint: oklch(0.5 0.02 30);
+
+  --color-carmim: oklch(0.55 0.18 25);
+  --color-carmim-dot: oklch(0.6 0.16 25);
+  --color-carmim-luz: oklch(0.72 0.13 25);
+  --color-carmim-suave: oklch(0.62 0.05 25);
+  --color-ambar: oklch(0.68 0.09 85);
+  --color-ambar-forte: oklch(0.68 0.1 85);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    background: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: oklch(0.55 0.18 25 / 0.35);
+  }
+  * {
+    scrollbar-color: var(--color-line) transparent;
+    scrollbar-width: thin;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer components {
+  .cartao {
+    background: var(--color-card);
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+  }
+  .rotulo {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+  }
+
+  /* Campos: parecem texto ate receberem foco/hover. */
+  .campo {
+    width: 100%;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 5px 8px;
+    color: var(--color-fg);
+    font: inherit;
+    outline: none;
+    transition: background-color 0.12s, border-color 0.12s;
+  }
+  .campo:hover {
+    border-color: var(--color-line-soft);
+  }
+  .campo:focus {
+    background: oklch(0.22 0.018 28);
+    border-color: oklch(0.55 0.18 25 / 0.55);
+  }
+  .campo::placeholder {
+    color: var(--color-faint);
+  }
+  .campo-caixa {
+    background: oklch(0.15 0.014 28);
+    border-color: var(--color-line);
+  }
+  textarea.campo {
+    resize: vertical;
+    line-height: 1.55;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid var(--color-line);
+    background: oklch(0.22 0.018 28);
+    color: var(--color-fg-soft);
+    transition: background-color 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .btn:hover {
+    background: oklch(0.26 0.02 28);
+    color: var(--color-fg-strong);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .btn-primario {
+    background: oklch(0.55 0.18 25 / 0.9);
+    border-color: oklch(0.6 0.18 25);
+    color: oklch(0.98 0.01 30);
+  }
+  .btn-primario:hover {
+    background: oklch(0.6 0.19 25);
+    color: oklch(0.99 0.01 30);
+  }
+  .btn-fantasma {
+    background: transparent;
+    border-style: dashed;
+    border-color: oklch(0.4 0.03 30);
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+  .btn-mini {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+  .btn-perigo:hover {
+    border-color: oklch(0.55 0.18 25 / 0.6);
+    color: var(--color-carmim-luz);
+    background: oklch(0.55 0.18 25 / 0.14);
+  }
+
+  .pilula {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10.5px;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: var(--color-track);
+    color: var(--color-fg-dim);
+    white-space: nowrap;
+  }
+  .pilula-carmim {
+    background: oklch(0.55 0.18 25 / 0.18);
+    color: var(--color-carmim-luz);
+    border: 1px solid oklch(0.55 0.18 25 / 0.4);
+  }
+  .pilula-ambar {
+    color: var(--color-ambar);
+  }
+
+  /* Depois de .campo de proposito: um input com class "campo titulo" precisa
+     manter a serifada (o `font: inherit` de .campo zera a familia). */
+  .titulo {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: var(--color-fg-strong);
+    line-height: 1.1;
+  }
+  .secao {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 18px;
+    color: oklch(0.88 0.01 30);
+    margin-bottom: 12px;
+  }
+}
