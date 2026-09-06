@@ -10,6 +10,7 @@ export default async function BestiarioPage() {
 
   const criaturas = await db.criatura.findMany({
     orderBy: [{ categoria: "asc" }, { nome: "asc" }],
+    include: { habilidades: { orderBy: { ordem: "asc" } } },
   });
 
   const lista: CriaturaItem[] = criaturas.map((c) => ({
@@ -23,13 +24,23 @@ export default async function BestiarioPage() {
     parametrosDefensivos: c.parametrosDefensivos,
     movimentacao: c.movimentacao,
     percepcaoPassiva: c.percepcaoPassiva,
-    golpeBrutal: c.golpeBrutal,
-    evocacaoMistica: c.evocacaoMistica,
     pvMax: c.pvMax,
     peMax: c.peMax,
     caracteristicas: c.caracteristicas,
     anotacoes: c.anotacoes,
     arquivada: c.arquivada,
+    habilidades: c.habilidades.map((h) => ({
+      nome: h.nome,
+      tipoAcao: h.tipoAcao,
+      custoPe: h.custoPe,
+      conjuracao: h.conjuracao,
+      tipoConjuracao: h.tipoConjuracao,
+      duracao: h.duracao,
+      pagina: h.pagina,
+      aprimoramentoA: h.aprimoramentoA,
+      aprimoramentoB: h.aprimoramentoB,
+      descricao: h.descricao,
+    })),
   }));
 
   return (
