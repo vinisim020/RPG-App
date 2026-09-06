@@ -82,10 +82,10 @@ npm run usuario -- --login joao --remover
 |---|---|---|
 | **Personagens** | todos | Jogador vê os próprios; mestre vê todos agrupados por jogador. |
 | **Ficha** | dono + mestre | Ficha completa e editável: recursos, 8 parâmetros, 14 conhecimentos (com maestria), equipamentos, habilidades de legado, habilidades de Caminho de Combate, inventário e anotações. Salva com o botão no rodapé ou `Ctrl+S`. |
-| **Iniciativa** | mestre edita, jogador lê | Ordem da rodada, turno atual, PV/PE ao vivo. Atualiza sozinha a cada 4s. |
-| **Criaturas** | mestre | Bestiário reutilizável, com busca, filtro por categoria do Livro dos Seres, duplicar e arquivar. |
+| **Iniciativa** | mestre edita, jogador lê | Ordem da rodada, turno atual, PV/PE (com temporário) ao vivo. Um clique carrega um grupo de combate pronto. Atualiza sozinha a cada 4s. |
+| **Criaturas** | mestre | Bestiário reutilizável, com busca, filtro por categoria do Livro dos Seres, duplicar, arquivar e ações/habilidades organizadas em cards (mesmo padrão da ficha de personagem). |
 | **Recompensas** | mestre | Monta prêmios pendentes; ao entregar, o item vai direto para o inventário do personagem. |
-| **Anotações de Sessão** | mestre | Diário da campanha por sessão. |
+| **Anotações de Sessão** | mestre | Preparação de sessão organizada em blocos de texto (em vez de um campo único), com grupos de combate pré-montados a partir do bestiário — cada grupo vai para a Iniciativa com um clique. |
 | **Usuários** | mestre | Gestão das contas. |
 
 ## 6. Decisões de implementação

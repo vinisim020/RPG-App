@@ -28,6 +28,13 @@ export default async function IniciativaPage() {
       })
     : [];
 
+  const grupos = ehMestre
+    ? await db.grupoCombate.findMany({
+        orderBy: { nome: "asc" },
+        include: { integrantes: { select: { quantidade: true } } },
+      })
+    : [];
+
   return (
     <>
       <CabecalhoPagina
@@ -47,6 +54,11 @@ export default async function IniciativaPage() {
           jogador: p.usuario.nome,
         }))}
         criaturas={criaturas}
+        grupos={grupos.map((g) => ({
+          id: g.id,
+          nome: g.nome,
+          integrantes: g.integrantes.reduce((s, it) => s + it.quantidade, 0),
+        }))}
       />
     </>
   );

@@ -18,6 +18,14 @@ async function combateAtual() {
   return c;
 }
 
+/** Como combateAtual(), mas cria um combate se nenhum estiver em andamento —
+ * usado por acoes de "um clique" que nao devem exigir iniciar o combate antes. */
+async function garantirCombate() {
+  const existente = await db.combateAtivo.findFirst({ orderBy: { atualizadoEm: "desc" } });
+  if (existente) return existente;
+  return db.combateAtivo.create({ data: { nome: "Combate" } });
+}
+
 async function proximaOrdem(combateId: string) {
   const ultimo = await db.combatente.findFirst({
     where: { combateId },
@@ -261,4 +269,77 @@ export async function reiniciarRodadas() {
     data: { rodadaAtual: 1, turnoAtualIndex: 0, atualizadoEm: new Date() },
   });
   revalidatePath("/iniciativa");
+}
+
+/** Adiciona todos os integrantes de um grupo de combate pre-montado de uma
+ * vez so. Cria o combate automaticamente se nenhum estiver em andamento. */
+export async function carregarGrupoCombate(grupoId: string) {
+  await exigirMestreAction();
+  const combate = await garantirCombate();
+
+  const grupo = await db.grupoCombate.findUnique({
+    where: { id: grupoId },
+    include: { integrantes: { orderBy: { ordem: "asc" }, include: { criatura: true } } },
+  });
+  if (!grupo) throw new SemPermissao("Grupo de combate não encontrado.");
+
+  let ordem = await proximaOrdem(combate.id);
+  const linhas: Array<{
+    combateId: string;
+    tipo: "CRIATURA" | "AVULSO";
+    criaturaId: string | null;
+    nomeExibicao: string;
+    pvAtual: number;
+    pvMax: number;
+    peAtual: number;
+    peMax: number;
+    ordem: number;
+  }> = [];
+
+  for (const it of grupo.integrantes) {
+    const total = Math.max(1, it.quantidade);
+
+    if (it.criatura) {
+      const jaExistem = await db.combatente.count({
+        where: { combateId: combate.id, criaturaId: it.criatura.id },
+      });
+      for (let k = 0; k < total; k++) {
+        linhas.push({
+          combateId: combate.id,
+          tipo: "CRIATURA",
+          criaturaId: it.criatura.id,
+          nomeExibicao:
+            jaExistem + total > 1
+              ? `${it.criatura.nome} ${jaExistem + k + 1}`
+              : it.criatura.nome,
+          pvAtual: it.criatura.pvMax,
+          pvMax: it.criatura.pvMax,
+          peAtual: it.criatura.peMax,
+          peMax: it.criatura.peMax,
+          ordem: ordem++,
+        });
+      }
+    } else {
+      for (let k = 0; k < total; k++) {
+        linhas.push({
+          combateId: combate.id,
+          tipo: "AVULSO",
+          criaturaId: null,
+          nomeExibicao: total > 1 ? `${it.nomeAvulso} ${k + 1}` : it.nomeAvulso || "NPC",
+          pvAtual: it.pvAvulso,
+          pvMax: it.pvAvulso,
+          peAtual: it.peAvulso,
+          peMax: it.peAvulso,
+          ordem: ordem++,
+        });
+      }
+    }
+  }
+
+  if (linhas.length > 0) {
+    await db.combatente.createMany({ data: linhas });
+  }
+
+  await tocar(combate.id);
+  return { combateId: combate.id, adicionados: linhas.length };
 }

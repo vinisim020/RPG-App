@@ -12,6 +12,7 @@ import {
   adicionarPersonagens,
   atualizarCombatente,
   avancarTurno,
+  carregarGrupoCombate,
   definirTurno,
   encerrarCombate,
   iniciarCombate,
@@ -23,6 +24,7 @@ import {
 
 type OpcaoPersonagem = { id: string; nome: string; jogador: string };
 type OpcaoCriatura = { id: string; nome: string; categoria: string };
+type OpcaoGrupo = { id: string; nome: string; integrantes: number };
 
 const INTERVALO_POLL = 4000;
 
@@ -31,11 +33,13 @@ export function Iniciativa({
   ehMestre,
   personagens,
   criaturas,
+  grupos,
 }: {
   inicial: EstadoCombate;
   ehMestre: boolean;
   personagens: OpcaoPersonagem[];
   criaturas: OpcaoCriatura[];
+  grupos: OpcaoGrupo[];
 }) {
   const [combate, setCombate] = useState<EstadoCombate>(inicial);
   const [erro, setErro] = useState<string | null>(null);
@@ -207,6 +211,7 @@ export function Iniciativa({
         aoFechar={() => setAdicionando(false)}
         personagens={personagens}
         criaturas={criaturas}
+        grupos={grupos}
         executar={executar}
       />
     </>
@@ -417,15 +422,19 @@ function ModalAdicionar({
   aoFechar,
   personagens,
   criaturas,
+  grupos,
   executar,
 }: {
   aberto: boolean;
   aoFechar: () => void;
   personagens: OpcaoPersonagem[];
   criaturas: OpcaoCriatura[];
+  grupos: OpcaoGrupo[];
   executar: (fn: () => Promise<unknown>) => Promise<void>;
 }) {
-  const [aba, setAba] = useState<"personagens" | "criaturas" | "avulso">("personagens");
+  const [aba, setAba] = useState<"personagens" | "criaturas" | "avulso" | "grupos">(
+    "personagens"
+  );
   const [selecionados, setSelecionados] = useState<string[]>([]);
   const [criaturaId, setCriaturaId] = useState<string>(criaturas[0]?.id ?? "");
   const [quantidade, setQuantidade] = useState(1);
@@ -441,6 +450,7 @@ function ModalAdicionar({
   const abas: { chave: typeof aba; rotulo: string }[] = [
     { chave: "personagens", rotulo: "Personagens" },
     { chave: "criaturas", rotulo: "Criaturas" },
+    { chave: "grupos", rotulo: "Grupo pronto" },
     { chave: "avulso", rotulo: "NPC avulso" },
   ];
 
@@ -563,6 +573,46 @@ function ModalAdicionar({
               }}
             >
               Adicionar
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {aba === "grupos" ? (
+        <div className="flex flex-col gap-3">
+          {grupos.length === 0 ? (
+            <p className="text-[12.5px] text-faint">
+              Nenhum grupo de combate pronto. Monte um em Anotações de Sessão.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {grupos.map((g) => (
+                <div
+                  key={g.id}
+                  className="flex items-center gap-3 rounded-md border border-line-soft px-3 py-2.5"
+                >
+                  <span className="text-[13.5px] text-fg-soft">{g.nome}</span>
+                  <span className="text-[11.5px] text-faint">
+                    {g.integrantes} {g.integrantes === 1 ? "combatente" : "combatentes"}
+                  </span>
+                  <button
+                    type="button"
+                    className="btn btn-primario btn-mini ml-auto"
+                    disabled={g.integrantes === 0}
+                    onClick={async () => {
+                      await executar(() => carregarGrupoCombate(g.id));
+                      aoFechar();
+                    }}
+                  >
+                    Carregar
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="flex justify-end">
+            <button type="button" className="btn" onClick={aoFechar}>
+              Fechar
             </button>
           </div>
         </div>

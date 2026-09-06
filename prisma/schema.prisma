@@ -29,8 +29,8 @@ model Usuario {
 // ---------------------------------------------------------------- Personagem
 
 model Personagem {
-  id       String  @id @default(cuid())
-  usuario  Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  id        String  @id @default(cuid())
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   usuarioId String
 
   nome           String
@@ -43,26 +43,26 @@ model Personagem {
   bloqueio         String @default("")
   percepcaoPassiva String @default("")
 
-  pvAtual Int @default(0)
-  pvTemp  Int @default(0)
-  pvMax   Int @default(0)
-  peAtual Int @default(0)
-  peTemp  Int @default(0)
-  peMax   Int @default(0)
+  pvAtual  Int @default(0)
+  pvTemp   Int @default(0)
+  pvMax    Int @default(0)
+  peAtual  Int @default(0)
+  peTemp   Int @default(0)
+  peMax    Int @default(0)
   exaustao Int @default(0) // 0 a 5
 
-  moedasPrata     Int @default(0)
-  moedasOuro      Int @default(0)
-  moedasImperiais Int @default(0)
-  potencia        Int @default(0)
+  moedasPrata      Int @default(0)
+  moedasOuro       Int @default(0)
+  moedasImperiais  Int @default(0)
+  potencia         Int @default(0)
   pontuacaoUnidade Int @default(0)
 
   maestrias         String @default("")
   habilidadesLegado String @default("")
   anotacoes         String @default("")
 
-  arquivado Boolean  @default(false)
-  criadoEm  DateTime @default(now())
+  arquivado    Boolean  @default(false)
+  criadoEm     DateTime @default(now())
   atualizadoEm DateTime @updatedAt
 
   parametros    Parametro[]
@@ -81,7 +81,7 @@ model Parametro {
   personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
   personagemId String
   nome         String // um dos 8 fixos
-  valor        Int    @default(0) // 0 a 6
+  valor        Int        @default(0) // 0 a 6
 
   @@unique([personagemId, nome])
 }
@@ -91,8 +91,8 @@ model Conhecimento {
   personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
   personagemId String
   nome         String // um dos 14 fixos
-  valor        Int     @default(0) // 0 a 6
-  temMaestria  Boolean @default(false)
+  valor        Int        @default(0) // 0 a 6
+  temMaestria  Boolean    @default(false)
 
   @@unique([personagemId, nome])
 }
@@ -176,33 +176,54 @@ enum CategoriaSer {
 }
 
 model Criatura {
-  id         String       @id @default(cuid())
-  nome       String
-  nivel      Int          @default(1)
-  poder      String       @default("")
-  dificuldade String      @default("")
-  categoria  CategoriaSer @default(COMUNS)
+  id          String       @id @default(cuid())
+  nome        String
+  nivel       Int          @default(1)
+  poder       String       @default("")
+  dificuldade String       @default("")
+  categoria   CategoriaSer @default(COMUNS)
 
-  parametrosOfensivos String @default("")
+  parametrosOfensivos  String @default("")
   parametrosDefensivos String @default("")
-  movimentacao        String @default("")
-  percepcaoPassiva    String @default("")
-  golpeBrutal         String @default("")
-  evocacaoMistica     String @default("")
+  movimentacao         String @default("")
+  percepcaoPassiva     String @default("")
 
   pvMax Int @default(0)
   peMax Int @default(0)
 
-  caracteristicas String @default("")
+  caracteristicas String @default("") // tracos passivos, texto livre
   anotacoes       String @default("")
 
-  arquivada Boolean  @default(false)
-  criadoEm  DateTime @default(now())
+  arquivada    Boolean  @default(false)
+  criadoEm     DateTime @default(now())
   atualizadoEm DateTime @updatedAt
 
-  combatentes Combatente[]
+  habilidades      HabilidadeCriatura[]
+  combatentes      Combatente[]
+  gruposIntegrante GrupoCombateIntegrante[]
 
   @@index([categoria])
+}
+
+// Acoes/poderes da criatura, organizadas em cards (mesmo formato de HabilidadeCaminho).
+model HabilidadeCriatura {
+  id         String   @id @default(cuid())
+  criatura   Criatura @relation(fields: [criaturaId], references: [id], onDelete: Cascade)
+  criaturaId String
+
+  nome           String   @default("")
+  tipoAcao       TipoAcao @default(ATIVA)
+  custoPe        Int      @default(0)
+  conjuracao     Boolean  @default(false)
+  tipoConjuracao String   @default("")
+  duracao        String   @default("")
+  pagina         String   @default("")
+  aprimoramentoA Boolean  @default(false)
+  aprimoramentoB Boolean  @default(false)
+  descricao      String   @default("")
+  ordem          Int      @default(0)
+
+  @@index([criaturaId])
 }
 
 // ------------------------------------------------------------------ Combate
@@ -283,6 +304,53 @@ model AnotacaoSessao {
   id       String   @id @default(cuid())
   titulo   String
   data     DateTime @default(now())
-  texto    String   @default("")
   criadoEm DateTime @default(now())
+
+  blocos BlocoSessao[]
+  grupos GrupoCombate[]
+}
+
+// Bloco de anotacao dentro de uma sessao (substitui o campo de texto unico).
+model BlocoSessao {
+  id       String         @id @default(cuid())
+  sessao   AnotacaoSessao @relation(fields: [sessaoId], references: [id], onDelete: Cascade)
+  sessaoId String
+  titulo   String         @default("")
+  texto    String         @default("")
+  ordem    Int            @default(0)
+
+  @@index([sessaoId])
+}
+
+// Grupo de combate pre-montado na preparacao da sessao: um clique na
+// Iniciativa adiciona todos os integrantes de uma vez.
+model GrupoCombate {
+  id        String          @id @default(cuid())
+  sessao    AnotacaoSessao? @relation(fields: [sessaoId], references: [id], onDelete: Cascade)
+  sessaoId  String?
+  nome      String
+  anotacoes String          @default("")
+  ordem     Int             @default(0)
+
+  integrantes GrupoCombateIntegrante[]
+
+  @@index([sessaoId])
+}
+
+model GrupoCombateIntegrante {
+  id      String       @id @default(cuid())
+  grupo   GrupoCombate @relation(fields: [grupoId], references: [id], onDelete: Cascade)
+  grupoId String
+
+  // ou referencia uma criatura do bestiario, ou e um NPC avulso (criaturaId nulo)
+  criatura   Criatura? @relation(fields: [criaturaId], references: [id], onDelete: SetNull)
+  criaturaId String?
+  nomeAvulso String    @default("")
+  pvAvulso   Int       @default(0)
+  peAvulso   Int       @default(0)
+
+  quantidade Int @default(1)
+  ordem      Int @default(0)
+
+  @@index([grupoId])
 }
