@@ -1,0 +1,97 @@
+categoria,subcategoria,nome,preco_mp,unidade,dano_base_ou_bloqueio,parametro_ou_requisito,alcance,propriedade_ou_notas
+Armadura,Armadura,Robes,5,5,— (0 Bloqueio),—,—,Vestes sem defesa
+Armadura,Armadura,Armadura Leve,18,10,+1 Bloqueio,Vigor 1,—,Inaptidão em Canalização e Destreza
+Armadura,Armadura,Armadura Média,36,15,+2 Bloqueio,Vigor 2,—,Inaptidão em Canalização e Destreza
+Armadura,Armadura,Armadura Pesada,72,20,+3 Bloqueio,Vigor 4,—,Inaptidão em Canalização/Destreza/Agilidade/Furtividade
+Armadura,Escudo,Escudo,12,15,+1 Bloqueio,Vigor 1,—,Inaptidão em Canalização e Destreza
+Armamento,Leve,Adaga,6,8,2,Destreza,1m,"Ambidestria, Perfurar"
+Armamento,Leve,Maça,10,13,2,Brutalidade,1m,Impacto
+Armamento,Leve,Machado Leve,10,13,3,Brutalidade,1m,Afiado
+Armamento,Leve,Espada Curta,12,15,3,Brutalidade ou Destreza,1m,Prioridade
+Armamento,Pesado,Lança,18,20,3-4,Brutalidade ou Destreza,1m,"Extensão, Versatilidade"
+Armamento,Pesado,Martelo de Guerra,20,18,4,Brutalidade,1m,Contundente
+Armamento,Pesado,Machado Pesado,20,18,5,Brutalidade,1m,Traspassar
+Armamento,Pesado,Espada Longa,24,20,5,Brutalidade ou Destreza,1m,Prioridade
+Armamento,À Distância,Besta Pequena,12,10,2,Destreza,6m,"Ambidestria, Virotes"
+Armamento,À Distância,Revólver,24,9,3,Destreza,8m,Tambor
+Armamento,À Distância,Arco,20,17,4,Destreza,10m,"Perfurar, Flechas"
+Armamento,À Distância,Besta Grande,24,19,5,Destreza,10m,"Traspassar, Virotes"
+Armamento,À Distância,Mosquete,48,19,6,Destreza,12m,Tambor
+Armamento,Mágico,Berloque de Energia,10,5,2,Arcanismo,1m,"Ambidestria, Rasga-Véu"
+Armamento,Mágico,Catalisador Místico,20,16,4,Arcanismo,6m,Abalo Místico
+Armamento,Especial,Arma de Punho,6,5,—,—,1m,"Ambidestria, Marcialidade (dano de Ataque Desarmado)"
+Vestuário,Comum,Acessórios,1-2,—,—,—,—,"Capuzes, chapéus, cintos, luvas, etc."
+Vestuário,Comum,Conjunto de Roupas,5,—,—,—,—,Roupas regionais básicas
+Vestuário,Comum,Botas/Sandálias/Sapatos (par),2,—,—,—,—,—
+Vestuário,Comum,Calças/Saias,2,—,—,—,—,—
+Vestuário,Comum,Camisas/Coletes,2,—,—,—,—,—
+Vestuário,Comum,Gibão,3,—,—,—,—,—
+Vestuário,Comum,Jaqueta,3,—,—,—,—,—
+Vestuário,Comum,Manto,1,—,—,—,—,—
+Vestuário,Comum,Vestido,3,—,—,—,—,—
+Montaria,Montaria,Cavalo de Carga,350 (MO 2),—,PV 10,Mov. 9m,—,Transporta até 2 Alvos P/M
+Montaria,Montaria,Cavalo de Viagem,175 (MO 1),—,PV 10,Mov. 12m,—,Transporta até 2 Alvos P/M
+Montaria,Montaria,Cavalo de Guerra,125 (MO 2),—,PV 30,Mov. 9m,—,Treinado para Combate Montado
+Veículo,Veículo,Charrete,700 (MO 1),—,—,—,—,2 Legados; 1 cavalo
+Veículo,Veículo,Carroça,1000 (MO 2),—,—,—,—,4 Legados; 1 cavalo
+Veículo,Veículo,Carruagem,1400 (MO 5),—,—,—,—,6+ Legados; 2 cavalos
+Veículo,Veículo,Trenó,175 (MO 1),—,—,—,—,1-2 Legados
+Veículo,Veículo,Barco a remo,350 (MO 1),—,—,—,—,2-6 Legados
+Veículo,Veículo,Chalupa,2800 (MO 10),—,—,—,—,~20 Legados
+Veículo,Veículo,Caravela,4200 (MO 20),—,—,—,—,~35 Legados
+Veículo,Veículo,Galeão,7000 (MO 40),—,—,—,—,~60+ Legados
+Veículo,Veículo,Dirigível,5600 (MO 100),—,—,—,—,~80 Legados; energia do Véu
+Item Mundano,Contêiner,Algibeira,2,2,—,—,—,Moedas não ocupam Unidade
+Item Mundano,Contêiner,Aljava de Flechas,7,12,—,—,—,Até 40 Flechas sem ocupar Unidade
+Item Mundano,Contêiner,Aljava de Virotes,6,8,—,—,—,Até 40 Virotes sem ocupar Unidade
+Item Mundano,Utilidade,Ampulheta,5,3,—,—,—,Mede o tempo
+Item Mundano,Utilidade,Armadilha de Caça,14,15,—,—,—,Prende Alvo (Imóvel); 1 min para armar
+Item Mundano,Contêiner,Bainha/Coldre,4,6,—,—,—,Armamento guardado não ocupa Unidade
+Item Mundano,Utilidade,Balde,2,11,—,—,—,Até 10L
+Item Mundano,Contêiner,Bolsa,8,14,—,—,—,+20 Unidade máxima ao equipar (não acumula)
+Item Mundano,Contêiner,Bolsa de Munições,4,5,—,—,—,Até 40 Munições sem ocupar Unidade
+Item Mundano,Utilidade,Bússola,8,4,—,—,—,Aponta para o norte
+Item Mundano,Utilidade,Caixa de Fogo,3,4,—,—,—,Facilita acender fogo
+Item Mundano,Utilidade,Cantil,6,7,—,—,—,Até 3L
+Item Mundano,Lazer,Conjunto de Jogos,10,9,—,—,—,Baralhos/tabuleiro
+Item Mundano,Utilidade,Corda de Cânhamo (6m),12,11,—,—,—,Rompe com Brutalidade Dif. 10
+Item Mundano,Utilidade,Corrente (6m),18,16,—,—,—,Rompe com Brutalidade Dif. 12
+Item Mundano,Utilidade,Equipamento de Pescaria,14,18,—,—,—,Requer Sobrevivência
+Item Mundano,Utilidade,Instrumentos de Escrita,7,8,—,—,—,Tinteiros/penas
+Item Mundano,Utilidade,Frasco de Óleo,3,3,—,—,—,Inflamável
+Item Mundano,Utilidade,Frasco de Perfume,8,3,—,—,—,Estético
+Item Mundano,Contêiner,Frasco Vazio,2,3,—,—,—,Para substâncias
+Item Mundano,Lazer,Instrumento Musical,15,6-20,—,—,—,Requer Performance
+Item Mundano,Utilidade,Lamparina,8,10,—,—,—,"8h de luz, 8m de raio"
+Item Mundano,Utilidade,Livreto em Branco,4,7,—,—,—,Anotações
+Item Mundano,Utilidade,Luneta,13,9,—,—,—,Longas distâncias
+Item Mundano,Contêiner,Mochila,16,18,—,—,—,+40 Unidade máxima ao equipar (não acumula)
+Item Mundano,Utilidade,Pá,2,16,—,—,—,Cavar
+Item Mundano,Utilidade,Pergaminho,1,1,—,—,—,Frente e verso
+Item Mundano,Contêiner,Porta Mapas,5,6,—,—,—,Protege mapas/documentos
+Item Mundano,Consumível,Ração de Viagem,2,4,—,—,—,Sustenta 8h; estraga em 5 dias
+Item Mundano,Utilidade,Saco de Dormir,6,13,—,—,—,Conforto em viagem
+Item Mundano,Montaria,Sela,8,19,—,—,—,+50 Unidade à Montaria equipada
+Item Mundano,Utilidade,Tenda,12,17,—,—,—,Abriga até 2 Legados
+Item Mundano,Utilidade,Tocha,2,8,—,—,—,2h; remove Escuridão em 4m
+Item Mundano,Utilidade,Utensílios de Cozinha,6,12,—,—,—,Panelas/pratos/talheres
+Item Mundano,Vestuário especial,Vestimenta Contra o Calor,8,10,—,—,—,Reduz efeito de calor extremo
+Item Mundano,Vestuário especial,Vestimenta Contra o Frio,8,10,—,—,—,Reduz efeito de frio extremo
+Item Utilizável,Ferramenta,Conjunto de Desarme,10,12,—,—,—,+2 em Tecnologia p/ desarmar armadilhas; reutilizável
+Item Utilizável,Consumível,Conjunto de Primeiro Socorros,5,9,—,—,—,Remove Sangramento; estabiliza Incapacitado; uso único
+Item Utilizável,Munição,Flechas (20),5,10,—,—,—,Para Arcos; não reutilizável
+Item Utilizável,Ferramenta,Gazua,6,5,—,—,—,+1 Tecnologia p/ arrombar; uso único
+Item Utilizável,Munição,Munições (20),5,4,—,—,—,Para Revólver/Mosquete; não reutilizável
+Item Utilizável,Munição,Virotes (20),5,5,—,—,—,Para Bestas; não reutilizável
+Poção,Consumível,Poção de Antídoto,15,3,—,—,—,Remove Envenenado ou Toxina
+Poção,Consumível,Poção de Crisol Cerúleo,40,3,—,—,—,Remove e imuniza a Envenenado/Toxina por 1h
+Poção,Consumível,Poção Purificadora,15,3,—,—,—,Remove 1 Condição Mágica
+Poção,Consumível,Poção de Orvalho Púrpura,40,3,—,—,—,Remove todas Condições Mágicas
+Poção,Consumível,Poção Revigorante,15,3,—,—,—,Regenera 1d4 PE
+Poção,Consumível,Poção de Farol Ambarino,40,3,—,—,—,Regenera 2d6 PE
+Poção,Consumível,Poção de Saúde Básica,15,3,—,—,—,Regenera Vigor + 2d4 PV
+Poção,Consumível,Poção de Saúde Avançada,25,3,—,—,—,Regenera 2x Vigor + 2d8 PV
+Poção,Consumível,Poção de Sopro Esmeralda,40,3,—,—,—,Regenera 4x Vigor + 2d12 PV
+Toxina,Consumível,Toxina Ardente,15,3,—,—,—,Alvo perde PV a cada Ação (metade do PE máx.)
+Toxina,Consumível,Toxina Debilitante,15,3,—,—,—,Aplica Envenenado por 1 min
+Toxina,Consumível,Toxina Entorpecente,15,3,—,—,—,Aplica Lentidão

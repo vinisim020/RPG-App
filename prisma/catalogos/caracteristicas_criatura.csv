@@ -1,0 +1,179 @@
+livro,dificuldade,nome,custo_pe,tipo_acao,efeito_resumo
+Comuns,Adicional,(sem adicional próprio),—,—,Livro base combinável com qualquer outro
+Comuns,Fácil,Anfíbio,—,—,Respira e enxerga dentro/fora d'água; sem penalidade em Combate Aquático
+Comuns,Fácil,Armadura Natural,—,—,Reduz Dano Físico recebido em 2x Poder
+Comuns,Fácil,Minúsculo,—,—,"+2m Movimentação, Aptidão em Furtividade, Corrida grátis após Defesa bem-sucedida, ignora ocupação de espaço; Inaptidão em Brutalidade. Exclui Corpo Descomunal/Colosso"
+Comuns,Fácil,Proteção Arcana,—,—,Reduz Dano Mágico recebido em 2x Poder
+Comuns,Fácil,Velocidade Aprimorada,—,—,Corrida grátis por turno + Prioridade em Agilidade
+Comuns,Normal,Contra-Ataque,1 PE,Ação Rápida,"Após ser alvo de Ação Ativa/Simples, contra-ataca com Golpe Brutal/Evocação Mística grátis"
+Comuns,Normal,Ignorar Defesas,—,—,Testes de Bloqueio contra a criatura têm Inaptidão; criatura tem Prioridade em Precisão/Canalização
+Comuns,Normal,Resistência Incomum,—,—,Imune a Inaptidões/reduções de Parâmetro; reduz Dano Crítico recebido pela metade
+Comuns,Normal,Sentidos Aprimorados,—,—,"Infravisão Mística, +2 Percepção Passiva, enxerga invisíveis/ilusões/formas verdadeiras"
+Comuns,Normal,Voar,—,—,Pode voar durante a Movimentação
+Comuns,Difícil,Ataque Duplo,—,Ação Ativa,Realiza 2 Golpes Brutais/Evocações Místicas no mesmo Alvo; a 2ª Evocação não custa PE
+Comuns,Difícil,Bioadaptação,2 PE,Ação Rápida (Conjuração),Remove um Efeito Negativo/Condição e fica imune a ele até o fim do combate
+Comuns,Difícil,Corpo Descomunal,—,—,"Requer Tamanho Enorme; +16 PV/Poder, imune a Lentidão/Imóvel, resiste a Agarrar, Aptidão Aprimorada em Brutalidade, Inaptidão Aprimorada em Furtividade. Exclui Minúsculo/Colosso"
+Comuns,Difícil,Invisibilidade,2 PE,Ação Simples (Conjuração),Fica Invisível por 1 minuto
+Comuns,Difícil,Véu Abundante,—,—,Regenera 1d4 PE temporários no início do turno
+Comuns,Extrema,Ação Simples Adicional,—,—,Ganha uma Ação Simples extra por turno
+Comuns,Extrema,Ação Rápida Adicional,—,—,Ganha uma Ação Rápida extra por rodada
+Comuns,Extrema,Colosso,—,—,"Requer Tamanho Gigante; +32 PV/Poder, imune a Lentidão/Imóvel/Fratura/Caído, dano em área ao acertar, Furtividade sempre falha. Exclui Corpo Descomunal/Minúsculo"
+Comuns,Extrema,Evolução Soberana,—,—,+1 categoria de dado em danos/regenerações; +2 Dif. em testes de Defesa/Vigor/Espírito de Características Fáceis/Normais
+Comuns,Extrema,Vontade Ancestral,—,—,1x/rodada considera Resultado Natural 10; 1x/rodada ganha Imunidade a um dano físico/mágico recebido
+Ferais,Adicional,Selvageria,—,—,Golpe Brutal com Resultado Natural 8+ aplica Sangramento 1h
+Ferais,Fácil,Ataque Selvagem,—,Ação Ativa,"Golpe Brutal com Inaptidão em Precisão; se acertar, dano é Amplificado"
+Ferais,Fácil,Corpo Espinhoso,—,—,Reflete 2x Poder em Dano Físico contra quem acertar com Resultado Natural baixo (8-) a até 1m
+Ferais,Fácil,Instinto de Sobrevivência,1 PE,Ação Rápida,Aptidão em teste de Agilidade; sucesso permite Corrida imediata
+Ferais,Fácil,Mobilidade,—,—,"Imune a Terreno Difícil, +2m Movimentação, escala superfícies sem teste"
+Ferais,Fácil,Rabada,1 PE,Ação Simples,Ataque em área a 1m; falha em Vigor Dif.8 deixa Caído
+Ferais,Normal,Adrenalina Feral,—,—,"Ganha +1 em Parâmetros Ofensivos ao ser ferida (até o Poder), perde ao acertar um teste ofensivo"
+Ferais,Normal,Ataque Inesperado,—,Iniciativa,"Movimentação + Golpe Brutal/Evocação grátis na Iniciativa, com Aptidão"
+Ferais,Normal,Ataques Afiados,—,—,Sangramento de Selvageria passa a ativar com Resultado Natural 6+; testes de Estabilizar têm Inaptidão Aprimorada
+Ferais,Normal,Impacto Feroz,1 PE,Ação Simples,Golpe Brutal + teste de Vigor Dif.8 ou fica Atordoado
+Ferais,Normal,Pulverizar,2 PE,Ação Ativa,Dano em área 1m (1d8/Poder); metade se passar em Vigor Dif.8; falha aplica Fratura
+Ferais,Difícil,Corpo Robusto,—,Redução,Concede Resistência Física
+Ferais,Difícil,Dilacerar,2 PE,Ação Rápida,"Aplica/potencializa Sangramento em Hemorragia (dobra dano, aplica Lentidão)"
+Ferais,Difícil,Líder do Bando,—,Presença,Aliados a 6m ganham Amplificar no 1º dano do turno e +1 Parâmetros Ofensivos/Defensivos
+Ferais,Difícil,Predador,—,—,Ataque de oportunidade (Golpe Brutal) contra quem sai do alcance; 1x por Alvo/rodada
+Ferais,Difícil,Resiliência Bestial,—,Ação Final,Ao cair a 0 PV continua lutando até o fim do próximo turno com custos de PE zerados
+Ferais,Extrema,Corpo de Escamas,—,—,Ignora Dano Físico gastando pontos de Capacidade (=Poder; +3 Corpo Descomunal / +6 Colosso)
+Ferais,Extrema,Frenesi Selvagem,—,Cólera,"Na metade do PV: Aptidão+Prioridade em Parâmetros, -2 na Dif. de Crítico, imune a Caído/deslocamento, +3m Movimentação"
+Ferais,Extrema,Investida Monstruosa,5 PE,Ação Ativa,Investida com Golpe Brutal potencializado; falha em Vigor Dif.10 arremessa e aplica Fratura/Sangramento/Caído/Atordoado
+Ferais,Extrema,Metamorfose Aberrante,3 PE,Ação Simples,Cria membro extra (PV temp = PE máx.) e Golpe Brutal atinge Alvo adicional por membro
+Ferais,Extrema,Rugido Aterrador,—,Iniciativa,"Área 8m: falha em Espírito Dif.10 aplica Inaptidão (Aprimorada na 1ª rodada), sem Prioridade até o fim do combate"
+Véu,Adicional,Cria do Véu,—,—,Evocação Mística grátis (sem custo de PE); acesso a todos os Feitiços Arcanos
+Véu,Fácil,Atravessar os Planos,1 PE,Ação Simples (Conjuração),Teletransporte 4m; Alvos próximos ao reaparecer sofrem Lentidão se falharem em Vigor Dif.8
+Véu,Fácil,Decreto do Véu,1 PE,Ação Rápida (Conjuração),Teste de Poder vs. Canalização do alvo para anular uma Conjuração a 8m
+Véu,Fácil,Espelho entre os Planos,—,Iniciativa,Copia Habilidades de Legado de um Alvo a 20m até o fim do combate
+Véu,Fácil,Perturbar o Véu,—,Presença,Inimigos que iniciam o turno a 3m perdem 1 PE
+Véu,Fácil,Supremacia Arcana,—,—,"Ao receber Dano Mágico, regenera 1 PE e ganha +1 Poder temporário"
+Véu,Normal,Elevar o Véu,2 PE,Ação Simples (Conjuração),"Escolhe: duplicar próxima conjuração, dobrar alcance/área, ou Aptidão em Parâmetros até o fim do turno"
+Véu,Normal,Manipulador dos Espelhos,—,Conjuração,Reflete Ataque Mágico recebido (Espírito Dif.8) e distorce ilusoriamente região de 100m
+Véu,Normal,Mover as Cordas,2 PE,Ação Rápida (Conjuração),Altera em 1d4 o Resultado Natural de um teste de Parâmetro vigente a 8m
+Véu,Normal,Repulsão Arcana,2 PE,Ação Ativa (Conjuração),Dano em área 4m (1d8/Poder) + empurra 6m se falhar em Vigor Dif.8
+Véu,Normal,Troca Mística,—,Iniciativa (Conjuração),Teleporta inimigos a 8m para novo local se falharem em Espírito Dif.8
+Véu,Difícil,Aprisionar no Véu,3 PE,Ação Simples (Conjuração/Foco),Prende Alvo a 8m em bolso dimensional; sai com sucesso em Espírito Dif.10
+Véu,Difícil,Avatar das Forças Arcanas,2 PE,Ação Rápida (Conjuração),Maximiza metade dos dados de dano de uma Conjuração
+Véu,Difícil,Ligação Mística,—,Iniciativa (Conjuração),"Vincula 2 Alvos; ao se afastarem, ambos recebem 1d10 Dano Mágico/Poder e podem ficar Atordoados"
+Véu,Difícil,Matriz Mística,—,Redução,Concede Resistência Mágica [Neutro]
+Véu,Difícil,Mímico dos Planos,—,Conjuração,Absorve e repete a próxima Conjuração de um Alvo a 8m sem custo de Ação
+Véu,Extrema,Caminhante do Véu,—,Cólera,"Na metade do PV: custos de PE pela metade, 1x Conjuração sem custo de Ação, alcance/área dobrados, dano mágico Amplificado"
+Véu,Extrema,Campo Gravitacional,—,Presença,Reduz Movimentação e impõe Inaptidão Aprimorada em testes contra Precisão/Canalização/Defesa em área de 20m
+Véu,Extrema,Orbe da Destruição,5 PE,Ação Simples (Conjuração/Foco),Armazena metade do dano mágico causado em área e libera como explosão
+Véu,Extrema,Proteção Mística,—,—,Ignora X Conjurações contra si (X = Poder; +3/+6 com Corpo Descomunal/Colosso)
+Véu,Extrema,Quebrar o Véu,4 PE,Ação Ativa (Conjuração),Remove PE do Alvo (Espírito Dif.10) ou causa dano mágico se não houver PE a remover
+Não-Vivos,Adicional,Corpo Apodrecido,—,—,Resistência Mágica [Profano] e Fraqueza [Natureza]; imune a Sangramento e Toxinas
+Não-Vivos,Fácil,Amaldiçoar o Véu,—,Ação Final,Ao morrer reduz Parâmetros de inimigos próximos que falharem em Espírito Dif.8
+Não-Vivos,Fácil,Toque Profano,—,—,Ataques certeiros (8+) aplicam Inaptidão no próximo teste de Vigor/Espírito; converte danos neutros em Profano
+Não-Vivos,Fácil,Energia Profana,1 PE,Ação Rápida (Conjuração),Aumenta dano em 1d8 Profano e aplica Putrefação (bloqueia regeneração)
+Não-Vivos,Fácil,Estaca Óssea,1 PE,Ação Simples,Ataque a 6m; falha em Defesa Dif.8 causa dano dobrado + Ferida Profana
+Não-Vivos,Fácil,Ferida Purulenta,—,—,Reflete 2x Poder em Dano Mágico Profano contra quem acertar com Resultado Natural baixo
+Não-Vivos,Normal,Agonia Reconfortante,—,—,Ganha PV temporários (=Poder) quando inimigo próximo recebe dano
+Não-Vivos,Normal,Esvair Essência,1 PE,Ação Rápida (Conjuração),Causa dano e força perda de 1d4 PE se falhar em Espírito Dif.8
+Não-Vivos,Normal,Forma Apavorante,—,Presença,Inimigos próximos com Espírito falho ganham Inaptidão em Parâmetros
+Não-Vivos,Normal,Muralha de Ossos,—,Iniciativa (Conjuração),Invoca estrutura de ossos (5 Capacidade) que causa dano em área
+Não-Vivos,Normal,Sussurros Atormentadores,2 PE,Ação Ativa (Conjuração),"Reduz testes de Parâmetro do Alvo; ao remover, rola efeito aleatório (1d12)"
+Não-Vivos,Difícil,Danação,3 PE,Ação Ativa (Conjuração),Causa metade do PV máximo do Alvo como Dano Profano (1x/combate por Alvo)
+Não-Vivos,Difícil,Energia Fantasma,1 PE,Ação Simples (Conjuração),"Danos do turno tornam-se Imateriais, ignorando Aptidões/Coberturas"
+Não-Vivos,Difícil,Eternidade,—,Ação Final,Ao chegar a 0 PV regenera metade do PV máximo (1x/combate)
+Não-Vivos,Difícil,Gelatinoso,—,—,Sucesso automático em Vigor; imune a Manobras; atravessa Alvos causando dano imaterial
+Não-Vivos,Difícil,Manto dos Mortos,—,Presença,Área de Escuridão Mística; inimigos próximos têm Inaptidão no Dado de Morte
+Não-Vivos,Extrema,A Colheita,5 PE,Ação Ativa (Conjuração),Dano em área 8m (1d12/Poder) com Espírito Dif.10; regenera PV igual à metade do dano causado
+Não-Vivos,Extrema,Etéreo,—,—,Atravessa objetos/Alvos; Imunidade a Dano Físico e Manobras; Dano Mágico recebido é Amplificado
+Não-Vivos,Extrema,Horda de Esqueletos,—,Iniciativa (Conjuração),"Invoca Esqueletos Rastejantes (1 por Poder, +1 a cada turno)"
+Não-Vivos,Extrema,Obeliscos da Não-Vida,—,Cólera,"Na metade do PV, invoca 3 Estruturas protetoras; criatura não morre enquanto uma existir"
+Não-Vivos,Extrema,Vínculo Maldito,3 PE,Ação Simples (Conjuração/Foco),Dano recebido pela criatura é redirecionado como Dano Profano ao Alvo vinculado
+Elementais,Adicional,Núcleo Elemental,—,—,Define Resistência/Fraqueza elemental (Fogo/Água/Vento/Terra/Trovão/Gelo); converte dano Neutro para elemental
+Elementais,Fácil,Encarnação Elemental,—,—,Evocação Mística sem custo de PE; pode trocar elemento do Núcleo por turno
+Elementais,Fácil,Furor Elemental,—,Ação Final,"Ao morrer, explode causando dano em área (1d8/Poder), metade se passar em Agilidade Dif.8"
+Elementais,Fácil,Matriz Elemental,—,—,Efeito passivo único por elemento (ex.: Fogo re-rola dados de dano; Vento ganha Movimentação extra)
+Elementais,Fácil,Potência Elemental,1 PE,Ação Simples (Conjuração),Próximo Dano Mágico é Amplificado
+Elementais,Fácil,Subversão Elemental,1 PE,Ação Rápida (Conjuração),Converte um Dano Mágico recebido para o elemento do próprio Núcleo
+Elementais,Normal,Armadilhas Elementais,—,Iniciativa (Conjuração),Cria fragmentos invisíveis que causam dano ao serem pisados
+Elementais,Normal,Aura Elemental,—,Presença,Inimigos que terminam o turno perto recebem dano elemental (2x Poder)
+Elementais,Normal,Esfera Elemental,2 PE,Ação Ativa (Conjuração),"Explosão em área 3m (1d8/Poder), metade se passar em Agilidade Dif.8"
+Elementais,Normal,Evocação Elemental,—,—,Imune ao próprio elemento; ao final do turno pode causar dano mágico a um Alvo a 8m
+Elementais,Normal,Obstáculo Elemental,2 PE,Ação Rápida (Conjuração),Interrompe Movimentação de um Alvo e causa dano se falhar em Agilidade Dif.8
+Elementais,Difícil,Enfraquecimento Elemental,3 PE,Ação Simples (Conjuração),Aplica Fraqueza Elemental a vários Alvos (Espírito Dif.10)
+Elementais,Difícil,Marca Elemental,—,Iniciativa (Conjuração),Marca Alvos; dano do elemento do Núcleo neles causa PV extra igual ao PE máximo do Alvo
+Elementais,Difícil,Corpo Elemental,—,—,Só pode ser atingida no Resultado Natural do d12 (sem bônus de Precisão/Canalização)
+Elementais,Difícil,Forças Elementais,2 PE,Ação Rápida (Conjuração),"Ao ser ferida, gera explosão elemental em área 3m igual ao PE máximo"
+Elementais,Difícil,Zona Elemental,3 PE,Ação Ativa (Conjuração/Foco),Cria terreno difícil que causa dano contínuo (1d10/Poder) por 10 minutos
+Elementais,Extrema,Cataclisma Elemental (6 variantes: Fogo/Água/Vento/Terra/Trovão/Gelo),—,Cólera,Na metade do PV assume aspecto elemental com efeito de área único por elemento; requer Núcleo do elemento correspondente
+Primais,Adicional,Nascido da Natureza,—,—,Resistência [Natureza] e Fraqueza [Profano]; imune a Envenenado e Toxinas
+Primais,Fácil,Esporos Primevos,—,Ação Final,"Ao morrer, bloqueia regeneração de PV/PE de inimigos próximos até Repouso"
+Primais,Fácil,Esvanecer Energias,1 PE,Ação Simples (Conjuração),Aumenta em 1 os custos de PE das ações do Alvo por 1 minuto
+Primais,Fácil,Nuvem de Pestilência,1 PE,Ação Rápida,"Após acertar, cria nuvem que aplica Envenenado em área"
+Primais,Fácil,Regeneração Primal,—,—,Regenera 2x Poder em PV no início do turno
+Primais,Fácil,Venenoso,—,—,Ataques certeiros (8+) aplicam Envenenado; converte dano Neutro em Natureza
+Primais,Normal,Carapaça Venenosa,—,Presença,Inimigos próximos arriscam ficar Envenenados (Vigor Dif.8)
+Primais,Normal,Energias Tóxicas,—,—,"Dano de Natureza aplica Intoxicado (-1 Vigor, sem efeito de Poções)"
+Primais,Normal,Esporos Debilitantes,—,Iniciativa,Aplica Lentidão em área ao iniciar combate
+Primais,Normal,Florescer a Dor,2 PE,Ação Ativa (Conjuração),Aplica/potencializa Envenenado com dano adicional
+Primais,Normal,Equilibrar o Ciclo,2 PE,Ação Rápida (Conjuração),Redireciona metade de uma regeneração de PV como dano de Natureza a outro Alvo
+Primais,Difícil,Arauto da Praga,—,Presença,Inimigos próximos arriscam dano de Natureza + Envenenado + Inaptidão
+Primais,Difícil,Canto das Rosas Oníricas,—,Presença,Testes com Resultado Natural baixo (6-) são falha automática para inimigos próximos
+Primais,Difícil,Vinhas da Natureza,2 PE,Ação Simples (Conjuração),Prende inimigos em área (Imóvel) com dano contínuo por Vigor
+Primais,Difícil,Fungo Corrosivo,—,—,Aplica efeito Corroído (reduz Dano Base/Bloqueio pela metade) em armas/armaduras
+Primais,Difícil,Peçonha,3 PE,Ação Simples (Conjuração),Cria terreno tóxico que aplica Enjoado (-2 Precisão/Canalização/Defesa)
+Primais,Extrema,Acelerar o Inevitável,5 PE,Ação Simples (Conjuração/Foco),Compartilha metade do dano entre inimigos numa área
+Primais,Extrema,A Solidão da Floresta,—,Iniciativa,Cega/ensurdece/silencia inimigos em área 20m
+Primais,Extrema,Maldição do Apodrecimento,—,Ação Final,"Ao morrer, aplica maldição que estraga itens/comida/equipamentos dos inimigos"
+Primais,Extrema,O Último Ritual,5 PE,Ação Ativa (Conjuração),Causa metade do PV máximo como Dano Imaterial em área 8m no próximo turno
+Primais,Extrema,Portador dos Desígnios Ancestrais,—,Cólera,"Na metade do PV, reduz dados de dano/regeneração e Parâmetros dos inimigos em área"
+Artificiais,Adicional,Armamentos Naturais,—,—,Ataques ganham uma Propriedade de arma à escolha (Afiado/Contundente/Extensão/Impacto/Perfurar/Prioridade)
+Artificiais,Tipo especial,Experimento,—,—,Substitui PV por Capacidade; regras próprias de dano crítico e regeneração (ver regra completa)
+Artificiais,Fácil,Absorver o Véu,—,Redução,Teste de Destino Dif.10 reduz Dano Mágico recebido pela metade
+Artificiais,Fácil,Adaptação Artificial,—,—,Ganha +1 Parâmetro (Ofensivo ou Defensivo) cada vez que falha no respectivo teste
+Artificiais,Fácil,Energia Corrompida,—,—,Reflete 2x Poder em Dano Imaterial a quem causou dano no turno
+Artificiais,Fácil,Negar a Carne,—,Redução,Imune a Fratura e a respirar; Teste de Destino Dif.10 reduz Dano Físico pela metade
+Artificiais,Fácil,Parasita Enfraquecedor,—,—,"Ao ser ferida, pode aplicar Enfraquecido (Vigor Dif.8)"
+Artificiais,Normal,A Fera Superior,—,—,Requer traço Feral; ganha Fragmentos Afiados (dano em área c/ Sangramento) e Evolução Feral
+Artificiais,Normal,A Não-Vida Superior,—,—,Requer traço Não-Vivo; ganha Simular Corrosão Mística (reduz dano/regen. de área) e Evolução Não-Viva
+Artificiais,Normal,O Elemento Superior,—,—,Requer traço Elemental; ganha Revestimento Nulo (contra-explosão) e Evolução Elemental
+Artificiais,Normal,O Primal Superior,—,—,Requer traço Primal; ganha Infectar (dano por PE gasto) e Evolução Primal
+Artificiais,Normal,O Véu Superior,—,—,Requer traço do Véu; ganha Adaptar o Véu (+Poder ao ser ferida) e Evolução Arcana
+Artificiais,Difícil,Experimento de Caerngron,—,Experimento,Aumenta custo de PE de inimigos próximos ou causa dano em área
+Artificiais,Difícil,Experimento de Mortumbrea,—,Experimento,Sucesso automático em Espírito; limita habilidades caras de PE de inimigos próximos
+Artificiais,Difícil,Experimento de Nistragard,—,Experimento,Rouba pontos de Parâmetro de Alvos atingidos (Espírito Dif.10)
+Artificiais,Difícil,O Abissal Superior,—,—,Requer traço Abissal; ganha Simulação Sombria (dano por falha) e Evolução Abissal
+Artificiais,Difícil,O Celestial Superior,—,—,Requer traço Celestial; ganha Ajuste Pecaminoso (transfere condição) e Evolução Celestial
+Artificiais,Extrema,A Criatura Perfeita,—,Cólera/Redução,"Na metade do PV, ganha imunidade alternada a Dano Físico/Mágico conforme o último recebido"
+Artificiais,Extrema,Criação Artificial,—,Iniciativa,Cria cópia (com Capacidade) de um inimigo copiando Parâmetros/Habilidades
+Artificiais,Extrema,Impacto Mental,4 PE,Ação Ativa,Dano imaterial alto + impede uma Ação do Alvo por falha em Espírito
+Artificiais,Extrema,Hospedeiro de Zakar'thul,—,Ação Final,"Ao morrer, contamina inimigos com parasita cumulativo (Estágios de Evolução)"
+Artificiais,Extrema,Proliferar a Legião,4 PE,Ação Ativa,Dano em área + aplica Contágio acumulável (3 pontos = turno controlado)
+Abissais,Adicional,Ascensão Abissal,—,—,"Resistência [Trevas]/Fraqueza [Luz], imune a Enfraquecido; aprimora traços Abissais de dificuldade inferior"
+Abissais,Fácil,Carapaça Demoníaca,—,—,Reflete dano ao receber Condição Mágica; Aptidão em Vigor/Espírito
+Abissais,Fácil,Herdeiro Abissal,—,—,Ataques certeiros (10+) aplicam Enfraquecido; converte dano Neutro em Trevas
+Abissais,Fácil,Ligação Abissal,1 PE,Ação Rápida (Conjuração/Foco),Usa PE do Alvo ferido para os próprios custos até o fim do próximo turno
+Abissais,Fácil,Retribuição Sombria,—,—,Reflete Escuridão Mística em quem causar dano
+Abissais,Fácil,Tentáculos Abissais,1 PE,Ação Simples (Conjuração),Desloca e aplica Lentidão em vários Alvos (Vigor Dif.8)
+Abissais,Normal,Amedrontar,1 PE,Ação Simples (Conjuração),Aplica Inaptidão contra a criatura e bloqueia aproximação
+Abissais,Normal,Artimanha Abissal,2 PE,Ação Ativa (Conjuração),Dano ou ignora custo de PE de inimigos (Espírito Dif.8)
+Abissais,Normal,Gatilho Demoníaco,—,Ação Final,"Ao morrer, força quem a matou a usar uma Ação Ativa contra si mesmo"
+Abissais,Normal,Perturbação Sombria,—,Iniciativa,Bloqueia habilidades de Iniciativa de inimigos (Espírito Dif.8)
+Abissais,Normal,Repressão Sombria,1 PE,Ação Rápida (Conjuração),"Ao perder um Embate, causa dano de Trevas ao vencedor"
+Abissais,Difícil,Anfitrião dos Pesadelos,—,Ação Final,"Ao morrer, amaldiçoa inimigos (Repousos mais longos, custos de PE maiores)"
+Abissais,Difícil,Aposta Maldita,2 PE,Ação Simples (Conjuração/Foco),Embate periódico de Espírito vs. Poder; perdedor recebe dano de Trevas
+Abissais,Difícil,Artifício Sombrio,1 PE,Ação Rápida (Conjuração),Inverte Aptidão↔Inaptidão de um teste vigente
+Abissais,Difícil,O Último Lamento,—,Iniciativa,Acumula Marcas do Lamento em inimigos; 10 marcas zeram o PV atual
+Abissais,Difícil,Prestígio Abissal,—,—,Regenera PV ao acertar testes; pode re-rolar dados de dano
+Abissais,Extrema,"Emissário/Emissária (7 variantes: Cidadela das Correntes, Cordilheiras sem Fim, Fossas da Perdição, Pântano dos Condenados, Planície do Silêncio, Selva dos Empalados, Templo da Inexistência)",—,Presença,Distorce a realidade num raio de 100m com efeito de área temático único e severo por variante
+Celestiais,Adicional,Ascensão Celestial,—,—,"Resistência [Luz]/Fraqueza [Trevas], imune a Atordoado; aprimora traços Celestiais de dificuldade inferior"
+Celestiais,Fácil,Farol de Ofir,—,—,Quem vencer um teste de Parâmetro contra a criatura sofre penalidade temporária
+Celestiais,Fácil,Herdeiro Celestial,—,—,Ataques certeiros (10+) aplicam Atordoado; converte dano Neutro em Luz
+Celestiais,Fácil,Presença da Humildade,—,Presença,Bloqueia Efeitos Positivos/Maximizar/Amplificar em inimigos próximos
+Celestiais,Fácil,Purificação Celeste,1 PE,Ação Simples (Conjuração),Remove PV/PE temporários do Alvo e amplifica o próximo dano nele
+Celestiais,Fácil,Resplendor da Cidade Radiante,1 PE,Ação Rápida (Conjuração),"Ao ser ferida, dano em área derruba e aplica Lentidão"
+Celestiais,Normal,Aprovação do Fiel,—,—,Ganha Aptidão em Parâmetros ao forçar teste de Espírito em inimigo
+Celestiais,Normal,A Outra Face,—,Presença,Compartilha metade da regeneração de PV de inimigos próximos
+Celestiais,Normal,Decreto do Reino Celeste,1 PE,Ação Simples (Conjuração),Dano de Luz + ganha PV temporários equivalentes
+Celestiais,Normal,O Mensageiro,—,Iniciativa,Reduz Iniciativa de inimigos a 1 (Espírito Dif.8)
+Celestiais,Normal,Ondulação Celestial,2 PE,Ação Ativa (Conjuração),Dano em área de Luz; sucesso bloqueia habilidades pagas do Alvo
+Celestiais,Difícil,As Chaves e o Cubo,3 PE,Ação Simples (Conjuração),Teste duplo (Vigor/Espírito); falhas causam dano em cadeia ou perda de Habilidades de Legado
+Celestiais,Difícil,A Palavra Impronunciável,—,—,Acumula pontos de Oferenda em inimigos (sacrifício de PV/PE ou Exaustão)
+Celestiais,Difícil,A Última Trombeta,—,Iniciativa,Copia até 2 habilidades de Iniciativa usadas por inimigos
+Celestiais,Difícil,O Escolhido,3 PE,Ação Rápida (Conjuração/Redução),Buff de dano/Parâmetros ou Resistência total por 1 turno
+Celestiais,Difícil,O Peso da Verdade,—,Presença,Pune inimigos que usam mais de uma Ação por turno com dano de Luz
+Celestiais,Extrema,A Compaixão / A Coragem / A Esperança / A Serenidade / A Honra / A Sabedoria / A Honestidade (7 variantes),—,Ação Final,"Ao morrer, aplica uma maldição temática severa e duradoura (até novo Nível de Despertar) em área de 20m"

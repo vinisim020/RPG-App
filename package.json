@@ -12,6 +12,7 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
+    "importar-catalogos": "tsx scripts/importar-catalogos.ts",
     "usuario": "tsx scripts/usuario.ts",
     "postinstall": "prisma generate"
   },
@@ -28,6 +29,7 @@
     "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "csv-parse": "^7.0.2",
     "prisma": "^6.19.3",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.13",
