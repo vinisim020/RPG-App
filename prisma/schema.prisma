@@ -354,3 +354,126 @@ model GrupoCombateIntegrante {
 
   @@index([grupoId])
 }
+
+// ============================================================================
+// Catalogos de referencia (importados do livro de regras — ver prisma/catalogos/).
+// Somente o mestre cria/edita/exclui; jogador ve em modo leitura. Ficha e
+// Criatura ainda nao referenciam estes catalogos (isso e a proxima fase, o
+// "motor de efeitos") — por ora sao paginas de consulta e um alvo fixo para
+// a marcacao de efeitos (grupo 0 da especificacao).
+
+// Origem do arquivo taxonomia_caminhos_combate.csv — os 5 Caminhos e as 25
+// Especializacoes, usados como filtro nas Habilidades e como referencia.
+model EspecializacaoCombate {
+  id                  String @id @default(cuid())
+  caminho             String
+  especializacao      String // "(base)" para a linha do proprio Caminho
+  palavrasChave       String @default("")
+  parametrosSugeridos String @default("")
+  preRequisito        String @default("")
+  descricaoResumo     String @default("")
+
+  @@unique([caminho, especializacao])
+}
+
+// Origem do arquivo habilidades_personagem.csv (251 linhas).
+model HabilidadeCatalogo {
+  id             String  @id @default(cuid())
+  caminho        String
+  especializacao String // "(base)" ou uma das 25 especializacoes
+  nome           String
+  custoPe        String  @default("") // texto fiel a fonte: "2", "1-5", "X PV", "—"
+  tipoAcao       String  @default("") // texto livre: valores reais nao batem com o enum TipoAcao
+  conjuracao     Boolean @default(false)
+  efeitoResumo   String  @default("")
+  aprimoramentoA String  @default("")
+  aprimoramentoB String  @default("")
+
+  arquivada    Boolean  @default(false)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  efeitos EfeitoCatalogo[]
+
+  @@index([caminho, especializacao])
+}
+
+// Origem do arquivo propriedades_armamentos.csv (15 linhas) — Afiado,
+// Perfurar, Tambor etc. Referenciada por texto em Equipamento.propriedade
+// (arma), nao por FK — evita reescrever o cadastro de equipamentos existente.
+model PropriedadeArmamento {
+  id           String @id @default(cuid())
+  nome         String @unique
+  efeitoResumo String @default("")
+}
+
+// Origem do arquivo equipamentos.csv (96 linhas) — armamentos, armaduras,
+// vestuario, montarias, veiculos, itens, pocoes e toxinas.
+model EquipamentoCatalogo {
+  id                   String @id @default(cuid())
+  categoria            String // Armadura, Armamento, Item Mundano, Item Utilizavel, Montaria, Pocao, Toxina, Vestuario, Veiculo
+  subcategoria         String @default("")
+  nome                 String
+  precoMp              String @default("") // texto fiel a fonte: "18", "1000 (MO 2)", "—"
+  unidade              String @default("") // peso de carga; idem, pode ser faixa ("6-20")
+  danoOuBloqueio       String @default("")
+  parametroOuRequisito String @default("")
+  alcance              String @default("")
+  propriedadeOuNotas   String @default("")
+
+  arquivado    Boolean  @default(false)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  @@index([categoria])
+}
+
+// Origem do arquivo caracteristicas_criatura.csv (178 linhas) — os 9 "Livros
+// dos Seres", usado no bestiario para montar criaturas.
+model CaracteristicaCriaturaCatalogo {
+  id           String @id @default(cuid())
+  livro        String // Comuns, Nao-Vivos, Artificiais, Ferais, Elementais, Abissais, Do Veu, Primais, Celestiais
+  dificuldade  String // Facil, Normal, Dificil, Extrema, Adicional, Tipo especial
+  nome         String
+  custoPe      String @default("")
+  tipoAcao     String @default("")
+  efeitoResumo String @default("")
+
+  arquivada    Boolean  @default(false)
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  efeitos EfeitoCatalogo[]
+
+  @@index([livro, dificuldade])
+}
+
+enum GrupoEfeito {
+  AUTOMATICO // bonus fixo, some direto nos totais da ficha/criatura
+  ESCOLHA // bonus fixo mas o alvo e escolhido pelo jogador/mestre ao adicionar
+  NARRATIVO // fica so como referencia (nome/custo/descricao) — a grande maioria
+}
+
+// Origem: item 0 e 5 da especificacao de Catalogos — a marcacao manual de
+// quais habilidades/caracteristicas tem efeito automatizavel. Nasce vazia
+// (nenhuma linha) ate a classificacao ser feita; ate la tudo se comporta
+// como NARRATIVO (nada e somado automaticamente). "origem" distingue o
+// efeito da propria habilidade dos efeitos de cada Aprimoramento.
+model EfeitoCatalogo {
+  id String @id @default(cuid())
+
+  habilidade       HabilidadeCatalogo?             @relation(fields: [habilidadeId], references: [id], onDelete: Cascade)
+  habilidadeId     String?
+  caracteristica   CaracteristicaCriaturaCatalogo? @relation(fields: [caracteristicaId], references: [id], onDelete: Cascade)
+  caracteristicaId String?
+
+  origem String @default("principal") // "principal" | "aprimoramentoA" | "aprimoramentoB"
+
+  grupo        GrupoEfeito @default(NARRATIVO)
+  alvoFixo     String? // ex.: "Vontade", "PV_max", "Bloqueio" — preenchido quando grupo = AUTOMATICO
+  alvoOpcoes   String? // lista separada por virgula dos alvos validos, quando grupo = ESCOLHA
+  valorFormula String? // numero ou formula simples, ex.: "1", "Poder*16", "Vigor/2"
+
+  @@index([habilidadeId])
+  @@index([caracteristicaId])
+}

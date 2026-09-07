@@ -10,6 +10,7 @@ type Item = { href: string; rotulo: string; soMestre?: boolean };
 const ITENS: Item[] = [
   { href: "/personagens", rotulo: "Personagens" },
   { href: "/iniciativa", rotulo: "Iniciativa" },
+  { href: "/catalogos", rotulo: "Catálogos" },
   { href: "/bestiario", rotulo: "Criaturas", soMestre: true },
   { href: "/recompensas", rotulo: "Recompensas", soMestre: true },
   { href: "/sessoes", rotulo: "Anotações de Sessão", soMestre: true },

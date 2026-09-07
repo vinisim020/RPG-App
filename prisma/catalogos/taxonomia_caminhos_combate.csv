@@ -1,0 +1,31 @@
+caminho,especializacao,palavras_chave,parametros_sugeridos,pre_requisito,descricao_resumo
+Andarilho,(base),"Criatura Aliada, Transformação, Versatilidade, Controle",Canalização e Espírito,—,Foco em usar a natureza (fauna/flora) a seu favor; lida com monstros ou se torna um
+Andarilho,Bardo,—,—,—,Menestrel/contador de histórias que usa o Véu com um instrumento musical
+Andarilho,Caçador,—,—,—,Especialista que doma feras selvagens para ajudá-lo na caçada
+Andarilho,Emissário,—,—,—,"Conectado às forças do Ciclo, lida com vida e morte ao redor"
+Andarilho,Druida,—,—,—,Conjurador primal vinculado às criaturas da natureza e em pacto com as Três Guardiãs (Luas)
+Andarilho,Ritualista,—,—,—,"Acólito de rituais obscuros da floresta, manipulação de forças debilitantes"
+Combatente,(base),"Armamentos, Vitalidade, Ataque Físico","Brutalidade, Destreza, Vigor, Precisão",—,Foco em usar Armamentos com maestria; vanguarda em batalha
+Combatente,Artista Marcial,—,—,—,Discípulo das artes marciais que fortalece corpo e mente com o fluxo do mundo
+Combatente,Guardião,—,—,—,Defensor que usa o escudo para proteger o grupo
+Combatente,Inquisidor,—,—,—,Guerreiro que neutraliza e pune conjuradores que abusam do Véu
+Combatente,Legionário Místico,—,—,—,Usa as camadas do Véu para energizar e elevar seu próprio poder
+Combatente,Soberano,—,—,—,Mestre de armas corpo a corpo com técnicas devastadoras
+Devoto,(base),"Proteção, Bonificação, Regeneração",Canalização e Espírito,—,"Foco em manter a si e aos aliados vivos, com bônus e curas"
+Devoto,Avatar,—,—,—,Ligação mortal direta com o plano de Édona (os deuses)
+Devoto,Espiritualista,—,—,—,Conecta as energias dos vivos e do Limbo
+Devoto,Oculto,—,—,—,"Serve às trevas, usando a vontade sombria do Abismo"
+Devoto,Paladino,—,—,—,"Serve à luz, usando a força celestial de Ofir"
+Devoto,Sacerdote,—,—,—,Especialista em restaurar vida e energia dos aliados em combate
+Feiticeiro,(base),"Conjuração, Ataque Mágico, Feitiços Arcanos","Arcanismo, Canalização, Vigor",—,Foco em grande variedade de Conjurações e efeitos mágicos diversos
+Feiticeiro,Arcanista,—,—,—,Evocador da força pura do Véu para potencializar magias
+Feiticeiro,Artífice,—,—,—,Une forças místicas com aparatos/dispositivos que potencializam habilidades
+Feiticeiro,Elementalista,—,—,—,Conjurador das forças elementais do Véu
+Feiticeiro,Fiandeiro de Sangue,—,—,—,"Usa a Magia de Sangue proibida, drenando a própria força vital para se fortalecer"
+Feiticeiro,Regulador,—,—,—,"Manipulador das forças temporais, altera a realidade ao redor"
+Ladino,(base),"Armamentos, Ocultação, Oportunista, Controle","Agilidade, Precisão, Destreza",—,Foco em usar artimanhas para subjugar alvos e aproveitar oportunidades
+Ladino,Assassino,—,—,—,Ágil e mortal; aniquila inimigos antes que percebam
+Ladino,Atirador,—,—,—,Especialista em armamentos à distância com técnicas avançadas
+Ladino,Duelista,—,—,—,Estilo de combate rápido; mestre em ler o combate e aproveitar oportunidades
+Ladino,Sombra,—,—,—,Aliado das sombras; mestre do subterfúgio
+Ladino,Trapaceiro,"Ilusão, Burlar Regras",Qualquer,Armadilhas Místicas ou Reflexo Enganador (Caminho do Ladino),Usa ilusões e armadilhas para controlar o campo de batalha

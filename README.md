@@ -62,6 +62,16 @@ Abra <http://localhost:3000> e entre com a conta do mestre.
 Sempre que o `prisma/schema.prisma` mudar, rode `npm run db:push` localmente para aplicar no
 banco (a Vercel não altera o schema sozinha).
 
+Depois do primeiro `db:push`, carregue os catálogos de referência (equipamentos, habilidades,
+características — ver seção 5):
+
+```bash
+npm run importar-catalogos
+```
+
+É seguro rodar de novo sempre que os CSVs em `prisma/catalogos/` forem atualizados — o script
+atualiza pela chave natural em vez de duplicar.
+
 ## 4. Contas da mesa
 
 Pelo app: **Usuários** (só o mestre vê) — criar conta, trocar senha, promover a mestre, excluir.
@@ -83,6 +93,7 @@ npm run usuario -- --login joao --remover
 | **Personagens** | todos | Jogador vê os próprios; mestre vê todos agrupados por jogador. |
 | **Ficha** | dono + mestre | Ficha completa e editável: recursos, 8 parâmetros, 14 conhecimentos (com maestria), equipamentos, habilidades de legado, habilidades de Caminho de Combate, inventário e anotações. Salva com o botão no rodapé ou `Ctrl+S`. |
 | **Iniciativa** | mestre edita, jogador lê | Ordem da rodada, turno atual, PV/PE (com temporário) ao vivo. Um clique carrega um grupo de combate pronto. Atualiza sozinha a cada 4s. |
+| **Catálogos** | todos veem, mestre edita | Referência do livro de regras — Equipamentos (96), Habilidades de Caminho (251), Características de Criatura (178) e Caminhos & Especializações (30), importados de `prisma/catalogos/*.csv`. Busca e filtros em cada aba; jogador consulta, mestre cria/edita/arquiva/exclui. Ainda não conectado à Ficha/Bestiário — isso é a próxima fase (motor de efeitos). |
 | **Criaturas** | mestre | Bestiário reutilizável, com busca, filtro por categoria do Livro dos Seres, duplicar, arquivar e ações/habilidades organizadas em cards (mesmo padrão da ficha de personagem). |
 | **Recompensas** | mestre | Monta prêmios pendentes; ao entregar, o item vai direto para o inventário do personagem. |
 | **Anotações de Sessão** | mestre | Preparação de sessão organizada em blocos de texto (em vez de um campo único), com grupos de combate pré-montados a partir do bestiário — cada grupo vai para a Iniciativa com um clique. |
@@ -101,6 +112,11 @@ npm run usuario -- --login joao --remover
 - **Retrato do personagem é uma URL** (sem upload de arquivo nesta versão).
 - A autenticação é um cookie de sessão assinado (JWT + `bcrypt`), sem NextAuth: menos
   dependências para manter num projeto deste porte.
+- **Catálogos guardam os campos numéricos como texto** (`custoPe`, `precoMp`, `unidade`…),
+  fiéis à fonte — o livro tem valores como `"1-5"`, `"X PV"` e `"1000 (MO 2)"` que não cabem
+  num `Int`. O modelo `EfeitoCatalogo` (grupo `AUTOMATICO`/`ESCOLHA`/`NARRATIVO`, todo item
+  nasce `NARRATIVO`) já existe no schema para a próxima fase — a Ficha/Bestiário ainda não
+  referenciam os catálogos nem somam efeito nenhum automaticamente.
 
 ## 7. Estrutura
 
