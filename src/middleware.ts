@@ -8,8 +8,11 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get(COOKIE_SESSAO)?.value;
   const sessao = token ? await lerToken(token) : null;
 
-  if (PUBLICAS.includes(pathname)) {
-    if (sessao) return NextResponse.redirect(new URL("/personagens", req.url));
+  if (PUBLICAS.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+    // link de redefinicao deve funcionar mesmo com uma sessao ja aberta no navegador.
+    if (sessao && pathname !== "/login/redefinir-senha") {
+      return NextResponse.redirect(new URL("/personagens", req.url));
+    }
     return NextResponse.next();
   }
 

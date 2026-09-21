@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { randomUUID } from "node:crypto";
+import { randomBytes, randomUUID, createHash } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
@@ -27,6 +27,21 @@ export function conferirSenha(senha: string, hash: string) {
  *  inutilizavel so para preencher a coluna obrigatoria no banco. */
 export function hashSenhaInutilizavel() {
   return hashSenha(randomUUID() + randomUUID());
+}
+
+export const DURACAO_TOKEN_REDEFINICAO_MS = 60 * 60 * 1000; // 1 hora
+
+/** Gera o token enviado por e-mail e o hash equivalente guardado no banco
+ *  (hash simples e determinístico, não bcrypt: precisa ser buscável por
+ *  igualdade exata ao receber o token de volta). */
+export function gerarTokenRedefinicao() {
+  const token = randomBytes(32).toString("hex");
+  const hash = createHash("sha256").update(token).digest("hex");
+  return { token, hash };
+}
+
+export function hashTokenRedefinicao(token: string) {
+  return createHash("sha256").update(token).digest("hex");
 }
 
 export async function abrirSessao(s: Sessao) {

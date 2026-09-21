@@ -23,6 +23,7 @@ mesa e os resultados anotados aqui.
    MESTRE_LOGIN="mestre"
    MESTRE_SENHA="<sua senha>"
    MESTRE_NOME="Seu nome"
+   RESEND_API_KEY="<sua api key de resend.com>"
    ```
 
    Gere o `AUTH_SECRET` com:
@@ -55,8 +56,9 @@ Abra <http://localhost:3000> e entre com a conta do mestre.
 
 1. Suba o projeto para um repositório no GitHub.
 2. Na Vercel, **Add New → Project** e importe o repositório.
-3. Em **Environment Variables**, cadastre `DATABASE_URL`, `DIRECT_URL` e `AUTH_SECRET`
-   (os mesmos valores do `.env`; as variáveis `MESTRE_*` são usadas só pelo seed local).
+3. Em **Environment Variables**, cadastre `DATABASE_URL`, `DIRECT_URL`, `AUTH_SECRET` e
+   `RESEND_API_KEY` (os mesmos valores do `.env`; as variáveis `MESTRE_*` são usadas só pelo
+   seed local). Sem `RESEND_API_KEY`, o botão "Esqueci minha senha" do login fica indisponível.
 4. Deploy. O `build` já roda `prisma generate`.
 
 Sempre que o `prisma/schema.prisma` mudar, rode `npm run db:push` localmente para aplicar no
@@ -74,7 +76,14 @@ atualiza pela chave natural em vez de duplicar.
 
 ## 4. Contas da mesa
 
+Só a conta de **mestre** usa senha para entrar; contas de jogador acessam só com o usuário.
+
 Pelo app: **Usuários** (só o mestre vê) — criar conta, trocar senha, promover a mestre, excluir.
+
+Se o mestre esquecer a própria senha, "Esqueci minha senha" na tela de login envia um link de
+redefinição (válido por 1h, uso único) por e-mail via [Resend](https://resend.com) — sempre para
+o endereço fixo em `EMAIL_REDEFINICAO_SENHA` (padrão: `vinigusilva@gmail.com`), já que a mesa
+não guarda e-mail por usuário. Exige `RESEND_API_KEY` configurada.
 
 Pela linha de comando:
 

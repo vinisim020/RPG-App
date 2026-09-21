@@ -24,6 +24,10 @@ model Usuario {
   papel       Papel        @default(JOGADOR)
   criadoEm    DateTime     @default(now())
   personagens Personagem[]
+
+  // redefinicao de senha por e-mail (so faz sentido para conta MESTRE)
+  resetTokenHash   String?
+  resetTokenExpira DateTime?
 }
 
 // ---------------------------------------------------------------- Personagem
