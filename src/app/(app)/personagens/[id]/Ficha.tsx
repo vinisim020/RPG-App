@@ -26,23 +26,31 @@ import {
   salvarFicha,
   type DadosFicha,
 } from "../actions";
+import { SeletorHabilidades, type CatalogoHabilidadeItem } from "./SeletorHabilidades";
+import { SeletorEquipamentos, type CatalogoEquipamentoItem } from "./SeletorEquipamentos";
 
 export function Ficha({
   id,
   inicial,
   donoNome,
   arquivado,
+  catalogoHabilidades,
+  catalogoEquipamentos,
 }: {
   id: string;
   inicial: DadosFicha;
   donoNome: string;
   arquivado: boolean;
+  catalogoHabilidades: CatalogoHabilidadeItem[];
+  catalogoEquipamentos: CatalogoEquipamentoItem[];
 }) {
   const router = useRouter();
   const [d, setD] = useState<DadosFicha>(inicial);
   const [sujo, setSujo] = useState(false);
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  const [seletorHabAberto, setSeletorHabAberto] = useState(false);
+  const [seletorEquipAberto, setSeletorEquipAberto] = useState(false);
 
   /** Toda edicao passa por aqui, sempre com updater funcional: dois ajustes
    *  no mesmo lote de renderizacao nao se sobrescrevem. */
@@ -363,6 +371,13 @@ export function Ficha({
       <TituloSecao
         acao={
           <div className="flex gap-2">
+            <button
+              type="button"
+              className="btn btn-mini"
+              onClick={() => setSeletorEquipAberto(true)}
+            >
+              + Do catálogo
+            </button>
             <button type="button" className="btn btn-mini" onClick={() => novoEquipamento("ARMA")}>
               + Armamento
             </button>
@@ -486,32 +501,41 @@ export function Ficha({
       {/* poderes --------------------------------------------------------- */}
       <TituloSecao
         acao={
-          <button
-            type="button"
-            className="btn btn-mini"
-            onClick={() =>
-              atualizar((p) => ({
-                ...p,
-                habilidades: [
-                  ...p.habilidades,
-                  {
-                    nome: "",
-                    tipoAcao: "ATIVA",
-                    custoPe: 0,
-                    conjuracao: false,
-                    tipoConjuracao: "",
-                    duracao: "",
-                    pagina: "",
-                    aprimoramentoA: false,
-                    aprimoramentoB: false,
-                    descricao: "",
-                  },
-                ],
-              }))
-            }
-          >
-            + Habilidade
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="btn btn-mini"
+              onClick={() => setSeletorHabAberto(true)}
+            >
+              + Do catálogo
+            </button>
+            <button
+              type="button"
+              className="btn btn-mini"
+              onClick={() =>
+                atualizar((p) => ({
+                  ...p,
+                  habilidades: [
+                    ...p.habilidades,
+                    {
+                      nome: "",
+                      tipoAcao: "ATIVA",
+                      custoPe: 0,
+                      conjuracao: false,
+                      tipoConjuracao: "",
+                      duracao: "",
+                      pagina: "",
+                      aprimoramentoA: false,
+                      aprimoramentoB: false,
+                      descricao: "",
+                    },
+                  ],
+                }))
+              }
+            >
+              + Habilidade
+            </button>
+          </div>
         }
       >
         Poderes &amp; Habilidades
@@ -772,6 +796,24 @@ export function Ficha({
       </div>
 
       <BarraSalvar sujo={sujo} salvando={salvando} erro={erro} aoSalvar={salvar} />
+
+      <SeletorHabilidades
+        aberto={seletorHabAberto}
+        aoFechar={() => setSeletorHabAberto(false)}
+        catalogo={catalogoHabilidades}
+        habilidadesAtuais={d.habilidades}
+        onConfirmar={(novaLista) => set("habilidades", novaLista)}
+      />
+
+      <SeletorEquipamentos
+        aberto={seletorEquipAberto}
+        aoFechar={() => setSeletorEquipAberto(false)}
+        catalogo={catalogoEquipamentos}
+        onAdicionarEquipamento={(e) =>
+          atualizar((p) => ({ ...p, equipamentos: [...p.equipamentos, e] }))
+        }
+        onAdicionarItem={(it) => atualizar((p) => ({ ...p, itens: [...p.itens, it] }))}
+      />
     </div>
   );
 }

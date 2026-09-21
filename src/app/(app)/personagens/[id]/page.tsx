@@ -31,6 +31,17 @@ export default async function PersonagemPage({
   if (!p) notFound();
   if (sessao.papel !== "MESTRE" && p.usuarioId !== sessao.id) notFound();
 
+  const [catalogoHabilidades, catalogoEquipamentos] = await Promise.all([
+    db.habilidadeCatalogo.findMany({
+      where: { arquivada: false },
+      orderBy: [{ caminho: "asc" }, { especializacao: "asc" }, { nome: "asc" }],
+    }),
+    db.equipamentoCatalogo.findMany({
+      where: { arquivado: false },
+      orderBy: [{ categoria: "asc" }, { nome: "asc" }],
+    }),
+  ]);
+
   const inicial: DadosFicha = {
     nome: p.nome,
     jogadorNome: p.jogadorNome,
@@ -106,6 +117,8 @@ export default async function PersonagemPage({
         inicial={inicial}
         donoNome={p.usuario.nome}
         arquivado={p.arquivado}
+        catalogoHabilidades={catalogoHabilidades}
+        catalogoEquipamentos={catalogoEquipamentos}
       />
     </>
   );
