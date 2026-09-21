@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { exigirMestreAction, hashSenha } from "@/lib/auth";
+import { exigirMestreAction, hashSenha, hashSenhaInutilizavel } from "@/lib/auth";
 
 export type Resultado = { erro?: string };
 
@@ -16,9 +16,12 @@ export async function criarUsuario(dados: {
 
   const login = dados.login.trim().toLowerCase();
   const nome = dados.nome.trim() || login;
+  const papel = dados.papel === "MESTRE" ? "MESTRE" : "JOGADOR";
   if (!login) return { erro: "Informe o usuário de acesso." };
   if (/\s/.test(login)) return { erro: "O usuário de acesso não pode ter espaços." };
-  if (dados.senha.length < 6) return { erro: "A senha precisa ter ao menos 6 caracteres." };
+  if (papel === "MESTRE" && dados.senha.length < 6) {
+    return { erro: "A senha do mestre precisa ter ao menos 6 caracteres." };
+  }
 
   const jaExiste = await db.usuario.findUnique({ where: { login } });
   if (jaExiste) return { erro: "Já existe uma conta com esse usuário." };
@@ -27,8 +30,9 @@ export async function criarUsuario(dados: {
     data: {
       nome,
       login,
-      senhaHash: await hashSenha(dados.senha),
-      papel: dados.papel === "MESTRE" ? "MESTRE" : "JOGADOR",
+      // jogador nao usa senha para entrar: guardamos so um hash inutilizavel.
+      senhaHash: papel === "MESTRE" ? await hashSenha(dados.senha) : await hashSenhaInutilizavel(),
+      papel,
     },
   });
 
@@ -46,7 +50,7 @@ export async function redefinirSenha(id: string, senha: string): Promise<Resulta
 
 export async function alterarUsuario(
   id: string,
-  dados: { nome?: string; papel?: "MESTRE" | "JOGADOR" }
+  dados: { nome?: string; papel?: "MESTRE" | "JOGADOR"; senha?: string }
 ): Promise<Resultado> {
   const sessao = await exigirMestreAction();
 
@@ -56,11 +60,18 @@ export async function alterarUsuario(
     if (id === sessao.id) return { erro: "Você não pode rebaixar a própria conta." };
   }
 
+  // contas de jogador nao tem senha utilizavel: ao virar mestre, precisa
+  // definir uma agora, senao a conta fica sem como entrar.
+  if (dados.papel === "MESTRE" && (!dados.senha || dados.senha.length < 6)) {
+    return { erro: "Defina uma senha (mín. 6 caracteres) para a nova conta de mestre." };
+  }
+
   await db.usuario.update({
     where: { id },
     data: {
       ...(dados.nome !== undefined ? { nome: dados.nome.trim() } : {}),
       ...(dados.papel !== undefined ? { papel: dados.papel } : {}),
+      ...(dados.papel === "MESTRE" ? { senhaHash: await hashSenha(dados.senha!) } : {}),
     },
   });
 

@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
@@ -20,6 +21,12 @@ export function hashSenha(senha: string) {
 
 export function conferirSenha(senha: string, hash: string) {
   return bcrypt.compare(senha, hash);
+}
+
+/** Contas de jogador nao usam senha para login; guardamos um hash
+ *  inutilizavel so para preencher a coluna obrigatoria no banco. */
+export function hashSenhaInutilizavel() {
+  return hashSenha(randomUUID() + randomUUID());
 }
 
 export async function abrirSessao(s: Sessao) {

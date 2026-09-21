@@ -11,14 +11,18 @@ export async function entrar(_anterior: EstadoLogin, formData: FormData): Promis
   const senha = String(formData.get("senha") ?? "");
   const de = String(formData.get("de") ?? "");
 
-  if (!login || !senha) return { erro: "Informe usuário e senha." };
+  if (!login) return { erro: "Informe o usuário." };
 
   let destino = "/personagens";
   try {
     const usuario = await db.usuario.findUnique({ where: { login } });
-    if (!usuario || !(await conferirSenha(senha, usuario.senhaHash))) {
-      return { erro: "Usuário ou senha inválidos." };
+    if (!usuario) return { erro: "Usuário ou senha inválidos." };
+    if (usuario.papel === "MESTRE") {
+      if (!senha || !(await conferirSenha(senha, usuario.senhaHash))) {
+        return { erro: "Usuário ou senha inválidos." };
+      }
     }
+    // contas de jogador entram so com o usuario, sem verificar senha.
     await abrirSessao({
       id: usuario.id,
       nome: usuario.nome,

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { Cartao, Pilula } from "@/components/ui";
 import { BotaoRemover, Campo, Modal } from "@/components/interativos";
 import {
@@ -40,6 +41,9 @@ export function Usuarios({
 
   const [senhaDe, setSenhaDe] = useState<UsuarioItem | null>(null);
   const [novaSenha, setNovaSenha] = useState("");
+
+  const [promoverDe, setPromoverDe] = useState<UsuarioItem | null>(null);
+  const [senhaPromocao, setSenhaPromocao] = useState("");
 
   async function executar(fn: () => Promise<{ erro?: string } | void>) {
     setOcupado(true);
@@ -98,28 +102,32 @@ export function Usuarios({
             </span>
 
             <div className="ml-auto flex flex-wrap items-center gap-2">
-              <button
-                type="button"
-                className="btn btn-mini"
-                onClick={() => {
-                  setSenhaDe(u);
-                  setNovaSenha("");
-                  setErro(null);
-                }}
-              >
-                Trocar senha
-              </button>
+              {u.papel === "MESTRE" ? (
+                <button
+                  type="button"
+                  className="btn btn-mini"
+                  onClick={() => {
+                    setSenhaDe(u);
+                    setNovaSenha("");
+                    setErro(null);
+                  }}
+                >
+                  Trocar senha
+                </button>
+              ) : null}
               <button
                 type="button"
                 className="btn btn-mini"
                 disabled={ocupado}
-                onClick={() =>
-                  executar(() =>
-                    alterarUsuario(u.id, {
-                      papel: u.papel === "MESTRE" ? "JOGADOR" : "MESTRE",
-                    })
-                  )
-                }
+                onClick={() => {
+                  if (u.papel === "MESTRE") {
+                    executar(() => alterarUsuario(u.id, { papel: "JOGADOR" }));
+                    return;
+                  }
+                  setPromoverDe(u);
+                  setSenhaPromocao("");
+                  setErro(null);
+                }}
               >
                 {u.papel === "MESTRE" ? "Tornar jogador" : "Tornar mestre"}
               </button>
@@ -137,8 +145,8 @@ export function Usuarios({
       </Cartao>
 
       <p className="mt-4 text-[11.5px] leading-relaxed text-faint">
-        Excluir uma conta apaga também os personagens dela. Não existe recuperação de senha
-        automática: use &ldquo;Trocar senha&rdquo; e passe a nova senha ao jogador.
+        Contas de jogador entram apenas com o usuário, sem senha. Só contas de mestre exigem
+        senha. Excluir uma conta apaga também os personagens dela.
       </p>
 
       {/* nova conta */}
@@ -165,15 +173,7 @@ export function Usuarios({
               placeholder="sem espaços, ex.: joao"
             />
           </Campo>
-          <div className="grid grid-cols-2 gap-3">
-            <Campo rotulo="Senha inicial">
-              <input
-                className="campo campo-caixa text-[13px]"
-                value={novo.senha}
-                onChange={(e) => setNovo({ ...novo, senha: e.target.value })}
-                placeholder="mínimo 6 caracteres"
-              />
-            </Campo>
+          <div className={cn("grid gap-3", novo.papel === "MESTRE" ? "grid-cols-2" : "grid-cols-1")}>
             <Campo rotulo="Papel">
               <select
                 className="campo campo-caixa text-[13px]"
@@ -186,7 +186,22 @@ export function Usuarios({
                 <option value="MESTRE">Mestre</option>
               </select>
             </Campo>
+            {novo.papel === "MESTRE" ? (
+              <Campo rotulo="Senha inicial">
+                <input
+                  className="campo campo-caixa text-[13px]"
+                  value={novo.senha}
+                  onChange={(e) => setNovo({ ...novo, senha: e.target.value })}
+                  placeholder="mínimo 6 caracteres"
+                />
+              </Campo>
+            ) : null}
           </div>
+          {novo.papel === "JOGADOR" ? (
+            <p className="text-[11.5px] text-faint">
+              Contas de jogador entram só com o usuário, sem senha.
+            </p>
+          ) : null}
           {erro ? <p className="text-[12.5px] text-carmim-luz">{erro}</p> : null}
           <div className="flex justify-end gap-2 border-t border-line-soft pt-4">
             <button type="button" className="btn" onClick={() => setNovoAberto(false)}>
@@ -240,6 +255,49 @@ export function Usuarios({
               }}
             >
               Salvar senha
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* tornar mestre */}
+      <Modal
+        aberto={promoverDe !== null}
+        aoFechar={() => setPromoverDe(null)}
+        titulo={`Tornar mestre — ${promoverDe?.nome ?? ""}`}
+        largura={420}
+      >
+        <div className="flex flex-col gap-3.5">
+          <p className="text-[12.5px] text-fg-dim">
+            Contas de mestre exigem senha. Defina uma agora para esta conta.
+          </p>
+          <Campo rotulo="Senha">
+            <input
+              autoFocus
+              className="campo campo-caixa text-[13px]"
+              value={senhaPromocao}
+              onChange={(e) => setSenhaPromocao(e.target.value)}
+              placeholder="mínimo 6 caracteres"
+            />
+          </Campo>
+          {erro ? <p className="text-[12.5px] text-carmim-luz">{erro}</p> : null}
+          <div className="flex justify-end gap-2">
+            <button type="button" className="btn" onClick={() => setPromoverDe(null)}>
+              Cancelar
+            </button>
+            <button
+              type="button"
+              className="btn btn-primario"
+              disabled={ocupado}
+              onClick={async () => {
+                if (!promoverDe) return;
+                const ok = await executar(() =>
+                  alterarUsuario(promoverDe.id, { papel: "MESTRE", senha: senhaPromocao })
+                );
+                if (ok) setPromoverDe(null);
+              }}
+            >
+              Tornar mestre
             </button>
           </div>
         </div>

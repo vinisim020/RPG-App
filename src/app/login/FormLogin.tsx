@@ -30,13 +30,13 @@ export function FormLogin({ de }: { de: string }) {
         />
       </label>
       <label className="block">
-        <span className="rotulo mb-1.5 block">Senha</span>
+        <span className="rotulo mb-1.5 block">Senha (apenas mestre)</span>
         <input
           name="senha"
           type="password"
           autoComplete="current-password"
           className="campo campo-caixa"
-          placeholder="••••••••"
+          placeholder="deixe em branco se você for jogador"
         />
       </label>
       {estado.erro ? (
