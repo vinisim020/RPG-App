@@ -66,6 +66,7 @@ export function SeletorEquipamentos({
         nome: c.nome,
         quantidade: 1,
         peso: c.unidade,
+        pontosUnidade: 0,
         categoria: c.categoria,
         descricao: [c.propriedadeOuNotas, c.precoMp ? `Preço: ${c.precoMp} MP` : ""]
           .filter(Boolean)
@@ -80,6 +81,9 @@ export function SeletorEquipamentos({
         bloqueio: alvo === "ARMADURA" ? c.danoOuBloqueio : "",
         inaptidao: c.parametroOuRequisito,
         propriedade: c.propriedadeOuNotas,
+        reducaoGeral: "",
+        reducaoFisica: "",
+        reducaoMagica: "",
       });
     }
     setAdicionados((s) => new Set(s).add(c.id));

@@ -8,10 +8,16 @@ export const dynamic = "force-dynamic";
 export default async function BestiarioPage() {
   await exigirMestre();
 
-  const criaturas = await db.criatura.findMany({
-    orderBy: [{ categoria: "asc" }, { nome: "asc" }],
-    include: { habilidades: { orderBy: { ordem: "asc" } } },
-  });
+  const [criaturas, catalogoCaracteristicas] = await Promise.all([
+    db.criatura.findMany({
+      orderBy: [{ categoria: "asc" }, { nome: "asc" }],
+      include: { habilidades: { orderBy: { ordem: "asc" } } },
+    }),
+    db.caracteristicaCriaturaCatalogo.findMany({
+      where: { arquivada: false },
+      orderBy: [{ livro: "asc" }, { dificuldade: "asc" }, { nome: "asc" }],
+    }),
+  ]);
 
   const lista: CriaturaItem[] = criaturas.map((c) => ({
     id: c.id,
@@ -49,7 +55,7 @@ export default async function BestiarioPage() {
         titulo="Fichas de Criaturas"
         descricao="Biblioteca reutilizável do Livro dos Seres, para uso rápido durante a sessão."
       />
-      <Bestiario criaturas={lista} />
+      <Bestiario criaturas={lista} catalogoCaracteristicas={catalogoCaracteristicas} />
     </>
   );
 }

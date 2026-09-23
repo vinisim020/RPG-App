@@ -73,22 +73,33 @@ export function Pilula({
 export function Barra({
   valor,
   max,
+  temp = 0,
   cor = "carmim",
 }: {
   valor: number;
   max: number;
+  /** Vida/PE temporário: some ao total da barra e aparece em amarelo, na sequência. */
+  temp?: number;
   cor?: "carmim" | "ambar";
 }) {
-  const pct = max > 0 ? Math.max(0, Math.min(100, (valor / max) * 100)) : 0;
+  const total = max + Math.max(0, temp);
+  const pctValor = total > 0 ? Math.max(0, Math.min(100, (valor / total) * 100)) : 0;
+  const pctTemp = total > 0 ? Math.max(0, Math.min(100 - pctValor, (temp / total) * 100)) : 0;
   return (
-    <div className="h-2 overflow-hidden rounded-[5px] bg-track">
+    <div className="flex h-2 overflow-hidden rounded-[5px] bg-track">
       <div
         className="h-full transition-[width] duration-200"
         style={{
-          width: `${pct}%`,
+          width: `${pctValor}%`,
           background: cor === "carmim" ? "var(--color-carmim)" : "var(--color-ambar-forte)",
         }}
       />
+      {temp > 0 ? (
+        <div
+          className="h-full transition-[width] duration-200"
+          style={{ width: `${pctTemp}%`, background: "var(--color-ambar-forte)" }}
+        />
+      ) : null}
     </div>
   );
 }

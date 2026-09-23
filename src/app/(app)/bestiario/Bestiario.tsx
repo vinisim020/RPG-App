@@ -20,6 +20,10 @@ import {
   type DadosCriatura,
   type DadosHabilidadeCriatura,
 } from "./actions";
+import {
+  SeletorCaracteristicas,
+  type CatalogoCaracteristicaItem,
+} from "./SeletorCaracteristicas";
 
 export type CriaturaItem = DadosCriatura & { id: string; arquivada: boolean };
 
@@ -53,7 +57,13 @@ const HABILIDADE_VAZIA: DadosHabilidadeCriatura = {
   descricao: "",
 };
 
-export function Bestiario({ criaturas }: { criaturas: CriaturaItem[] }) {
+export function Bestiario({
+  criaturas,
+  catalogoCaracteristicas,
+}: {
+  criaturas: CriaturaItem[];
+  catalogoCaracteristicas: CatalogoCaracteristicaItem[];
+}) {
   const router = useRouter();
   const [busca, setBusca] = useState("");
   const [filtro, setFiltro] = useState<string>("TODAS");
@@ -64,6 +74,7 @@ export function Bestiario({ criaturas }: { criaturas: CriaturaItem[] }) {
   const [form, setForm] = useState<DadosCriatura>(VAZIA);
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  const [seletorCaractAberto, setSeletorCaractAberto] = useState(false);
 
   const lista = useMemo(() => {
     const termo = busca.trim().toLowerCase();
@@ -392,7 +403,17 @@ export function Bestiario({ criaturas }: { criaturas: CriaturaItem[] }) {
             </Campo>
           </div>
 
-          <Campo rotulo="Características (traços passivos)">
+          <div>
+            <div className="mb-1.5 flex items-baseline justify-between">
+              <span className="rotulo">Características (traços passivos)</span>
+              <button
+                type="button"
+                className="btn btn-mini"
+                onClick={() => setSeletorCaractAberto(true)}
+              >
+                + Do catálogo
+              </button>
+            </div>
             <textarea
               rows={3}
               className="campo campo-caixa text-[13px]"
@@ -400,7 +421,7 @@ export function Bestiario({ criaturas }: { criaturas: CriaturaItem[] }) {
               onChange={(e) => campo("caracteristicas", e.target.value)}
               placeholder="Traços passivos, um por linha — visão no escuro, imunidades, etc."
             />
-          </Campo>
+          </div>
 
           {/* -------------------------------------------------- habilidades */}
           <div>
@@ -559,6 +580,15 @@ export function Bestiario({ criaturas }: { criaturas: CriaturaItem[] }) {
           </div>
         </div>
       </Modal>
+
+      <SeletorCaracteristicas
+        aberto={seletorCaractAberto}
+        aoFechar={() => setSeletorCaractAberto(false)}
+        catalogo={catalogoCaracteristicas}
+        onConfirmar={(texto) =>
+          campo("caracteristicas", form.caracteristicas ? `${form.caracteristicas}\n\n${texto}` : texto)
+        }
+      />
     </>
   );
 }
