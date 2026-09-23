@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, quebrarPontoEVirgula } from "@/lib/utils";
 import { Modal, Alternador } from "@/components/interativos";
 import { Cartao, Pilula } from "@/components/ui";
 import type { DadosFicha } from "../actions";
@@ -34,9 +34,13 @@ function construirHabilidade(
   sel: { aprimA: boolean; aprimB: boolean }
 ): HabilidadeFicha {
   const custoPe = parseInt(c.custoPe, 10);
-  let descricao = c.efeitoResumo;
-  if (sel.aprimA && c.aprimoramentoA) descricao += `\n\nAprimoramento I: ${c.aprimoramentoA}`;
-  if (sel.aprimB && c.aprimoramentoB) descricao += `\n\nAprimoramento II: ${c.aprimoramentoB}`;
+  let descricao = quebrarPontoEVirgula(c.efeitoResumo);
+  if (sel.aprimA && c.aprimoramentoA) {
+    descricao += `\n\nAprimoramento I: ${quebrarPontoEVirgula(c.aprimoramentoA)}`;
+  }
+  if (sel.aprimB && c.aprimoramentoB) {
+    descricao += `\n\nAprimoramento II: ${quebrarPontoEVirgula(c.aprimoramentoB)}`;
+  }
   return {
     nome: c.nome,
     tipoAcao: MAPA_TIPO_ACAO[c.tipoAcao] ?? "PASSIVA",
@@ -242,7 +246,7 @@ export function SeletorHabilidades({
                     </div>
                     {c.efeitoResumo ? (
                       <p className="mb-2 whitespace-pre-wrap text-[12px] leading-[1.5] text-fg-dim">
-                        {c.efeitoResumo}
+                        {quebrarPontoEVirgula(c.efeitoResumo)}
                       </p>
                     ) : null}
                     {c.aprimoramentoA || c.aprimoramentoB ? (

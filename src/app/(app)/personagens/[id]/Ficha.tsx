@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { cn, somarExpressaoMais } from "@/lib/utils";
 import { Barra, Cartao, TituloSecao } from "@/components/ui";
 import {
   Alternador,
@@ -176,6 +177,20 @@ export function Ficha({
     .map((e, i) => ({ e, i }))
     .filter((x) => x.e.tipo === "ARMADURA");
 
+  const pvTempTotal = somarExpressaoMais(d.pvTempTexto);
+
+  const somaRD = (campo: "reducaoGeral" | "reducaoFisica" | "reducaoMagica") =>
+    armaduras.reduce((soma, { e }) => soma + (parseInt(e[campo], 10) || 0), 0);
+  const rdGeral = somaRD("reducaoGeral");
+  const rdFisica = somaRD("reducaoFisica");
+  const rdMagica = somaRD("reducaoMagica");
+
+  const unidadesGastas = d.itens.reduce(
+    (soma, it) => soma + (Number(it.pontosUnidade) || 0) * (Number(it.quantidade) || 0),
+    0
+  );
+  const unidadesDisponiveis = d.pontuacaoUnidade - unidadesGastas;
+
   const novoEquipamento = (tipo: "ARMA" | "ARMADURA") =>
     atualizar((p) => ({
       ...p,
@@ -189,6 +204,9 @@ export function Ficha({
           bloqueio: "",
           inaptidao: "",
           propriedade: "",
+          reducaoGeral: "",
+          reducaoFisica: "",
+          reducaoMagica: "",
         },
       ],
     }));
@@ -308,14 +326,36 @@ export function Ficha({
               onChange={(v) => set("pvMax", v)}
               className="campo-caixa w-[54px] text-center text-[13px]"
             />
-            <span className="ml-auto text-[10.5px] text-carmim-suave">temp</span>
-            <InputNum
-              valor={d.pvTemp}
-              onChange={(v) => set("pvTemp", v)}
-              className="campo-caixa w-[46px] text-center text-[13px]"
+            <span className="ml-auto text-[10.5px] text-ambar">temp</span>
+            <input
+              value={d.pvTempTexto}
+              onChange={(e) => {
+                const v = e.target.value;
+                if (!/^[\d+]*$/.test(v)) return;
+                set("pvTempTexto", v);
+              }}
+              placeholder="0"
+              title='Some instâncias com "+", ex.: 16+5. O total soma tudo.'
+              className="campo campo-caixa w-[64px] text-center text-[13px]"
             />
+            {pvTempTotal > 0 ? (
+              <span className="text-[11px] tabular-nums text-ambar">= {pvTempTotal}</span>
+            ) : null}
           </div>
-          <Barra valor={d.pvAtual} max={d.pvMax} />
+          <Barra valor={d.pvAtual} max={d.pvMax} temp={pvTempTotal} />
+          {rdGeral > 0 || rdFisica > 0 || rdMagica > 0 ? (
+            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[10.5px] text-faint">
+              <span>
+                RD Geral <b className="text-fg-soft">{rdGeral}</b>
+              </span>
+              <span>
+                RD Física <b className="text-fg-soft">{rdFisica}</b>
+              </span>
+              <span>
+                RD Mágica <b className="text-fg-soft">{rdMagica}</b>
+              </span>
+            </div>
+          ) : null}
         </Cartao>
 
         <Cartao className="px-4 py-3.5">
@@ -533,11 +573,14 @@ export function Ficha({
       </Cartao>
 
       <Cartao className="mb-8 overflow-hidden">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1.4fr_auto] gap-2 border-b border-line px-4 py-2.5 text-[11px] uppercase tracking-[0.04em] text-faint">
+        <div className="grid grid-cols-[1.6fr_0.7fr_0.7fr_1fr_0.55fr_0.55fr_0.55fr_auto] gap-2 border-b border-line px-4 py-2.5 text-[11px] uppercase tracking-[0.04em] text-faint">
           <span>Armadura / Escudo</span>
           <span>Bloqueio</span>
           <span>Inaptidão</span>
           <span>Propriedade</span>
+          <span title="Redução de Dano geral">RD Geral</span>
+          <span title="Redução de Dano física">RD Física</span>
+          <span title="Redução de Dano mágica">RD Mágica</span>
           <span />
         </div>
         {armaduras.length === 0 ? (
@@ -546,7 +589,7 @@ export function Ficha({
           armaduras.map(({ e, i }) => (
             <div
               key={i}
-              className="grid grid-cols-[2fr_1fr_1fr_1.4fr_auto] items-center gap-2 border-b border-line-soft px-3 py-1.5 last:border-0"
+              className="grid grid-cols-[1.6fr_0.7fr_0.7fr_1fr_0.55fr_0.55fr_0.55fr_auto] items-center gap-2 border-b border-line-soft px-3 py-1.5 last:border-0"
             >
               <input
                 className="campo text-[13px]"
@@ -568,6 +611,24 @@ export function Ficha({
                 className="campo text-[13px]"
                 value={e.propriedade}
                 onChange={(ev) => setEquip(i, { propriedade: ev.target.value })}
+              />
+              <input
+                className="campo text-center text-[13px]"
+                value={e.reducaoGeral}
+                onChange={(ev) => setEquip(i, { reducaoGeral: ev.target.value })}
+                placeholder="—"
+              />
+              <input
+                className="campo text-center text-[13px]"
+                value={e.reducaoFisica}
+                onChange={(ev) => setEquip(i, { reducaoFisica: ev.target.value })}
+                placeholder="—"
+              />
+              <input
+                className="campo text-center text-[13px]"
+                value={e.reducaoMagica}
+                onChange={(ev) => setEquip(i, { reducaoMagica: ev.target.value })}
+                placeholder="—"
               />
               <BotaoRemover
                 rotulo="x"
@@ -742,7 +803,7 @@ export function Ficha({
 
       {/* inventario ------------------------------------------------------ */}
       <TituloSecao>Inventário</TituloSecao>
-      <Cartao className="mb-3.5 grid gap-4 px-4 py-3.5 sm:grid-cols-3 lg:grid-cols-5">
+      <Cartao className="mb-3.5 grid gap-4 px-4 py-3.5 sm:grid-cols-3 lg:grid-cols-6">
         <Campo rotulo="Prata">
           <InputNum
             valor={d.moedasPrata}
@@ -774,7 +835,18 @@ export function Ficha({
             className="campo-caixa text-[13px]"
           />
         </Campo>
-        <Campo rotulo="Pontuação de Unidade">
+        <Campo rotulo="Unidades Disponíveis">
+          <div
+            className={cn(
+              "campo campo-caixa text-[13px] tabular-nums",
+              unidadesDisponiveis < 0 && "text-carmim-luz"
+            )}
+            title="Totais - gastos nos itens abaixo"
+          >
+            {unidadesDisponiveis}
+          </div>
+        </Campo>
+        <Campo rotulo="Unidades Totais">
           <InputNum
             valor={d.pontuacaoUnidade}
             onChange={(v) => set("pontuacaoUnidade", v)}
@@ -784,10 +856,11 @@ export function Ficha({
       </Cartao>
 
       <Cartao className="mb-2 overflow-hidden">
-        <div className="grid grid-cols-[2.4fr_0.7fr_0.8fr_1fr_auto] gap-2 border-b border-line px-4 py-2.5 text-[11px] uppercase tracking-[0.04em] text-faint">
+        <div className="grid grid-cols-[2fr_0.6fr_0.7fr_0.6fr_0.9fr_auto] gap-2 border-b border-line px-4 py-2.5 text-[11px] uppercase tracking-[0.04em] text-faint">
           <span>Item</span>
           <span>Qtd.</span>
           <span>Peso</span>
+          <span title="Pontos de Unidade consumidos por item">Unid.</span>
           <span>Categoria</span>
           <span />
         </div>
@@ -796,7 +869,7 @@ export function Ficha({
         ) : (
           d.itens.map((it, i) => (
             <div key={i} className="border-b border-line-soft px-3 py-1.5 last:border-0">
-              <div className="grid grid-cols-[2.4fr_0.7fr_0.8fr_1fr_auto] items-center gap-2">
+              <div className="grid grid-cols-[2fr_0.6fr_0.7fr_0.6fr_0.9fr_auto] items-center gap-2">
                 <input
                   className="campo text-[13.5px]"
                   value={it.nome}
@@ -813,6 +886,12 @@ export function Ficha({
                   className="campo text-[13px]"
                   value={it.peso}
                   onChange={(e) => setItem(i, { peso: e.target.value })}
+                />
+                <InputNum
+                  valor={it.pontosUnidade}
+                  min={0}
+                  onChange={(v) => setItem(i, { pontosUnidade: v })}
+                  className="text-[13px]"
                 />
                 <input
                   className="campo text-[13px]"
@@ -842,7 +921,7 @@ export function Ficha({
             ...p,
             itens: [
               ...p.itens,
-              { nome: "", quantidade: 1, peso: "", categoria: "", descricao: "" },
+              { nome: "", quantidade: 1, peso: "", pontosUnidade: 0, categoria: "", descricao: "" },
             ],
           }))
         }

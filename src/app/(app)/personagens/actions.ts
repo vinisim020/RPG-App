@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { exigirSessaoAction, SemPermissao } from "@/lib/auth";
 import { CONHECIMENTOS, PARAMETROS, ESCALA_MAX, EXAUSTAO_MAX } from "@/lib/constants";
-import { limitar } from "@/lib/utils";
+import { limitar, somarExpressaoMais } from "@/lib/utils";
 
 async function podeMexer(personagemId: string) {
   const sessao = await exigirSessaoAction();
@@ -64,7 +64,7 @@ export type DadosFicha = {
   bloqueio: string;
   percepcaoPassiva: string;
   pvAtual: number;
-  pvTemp: number;
+  pvTempTexto: string;
   pvMax: number;
   peAtual: number;
   peTemp: number;
@@ -88,6 +88,9 @@ export type DadosFicha = {
     bloqueio: string;
     inaptidao: string;
     propriedade: string;
+    reducaoGeral: string;
+    reducaoFisica: string;
+    reducaoMagica: string;
   }[];
   habilidades: {
     nome: string;
@@ -105,6 +108,7 @@ export type DadosFicha = {
     nome: string;
     quantidade: number;
     peso: string;
+    pontosUnidade: number;
     categoria: string;
     descricao: string;
   }[];
@@ -117,6 +121,10 @@ const inteiro = (v: unknown, padrao = 0) => {
 
 export async function salvarFicha(id: string, d: DadosFicha) {
   await podeMexer(id);
+
+  // so digitos e "+" sao aceitos vindos do cliente; qualquer outra coisa e descartada aqui tambem.
+  const pvTempTexto = d.pvTempTexto.replace(/[^\d+]/g, "");
+  const pvTemp = somarExpressaoMais(pvTempTexto);
 
   const parametros = PARAMETROS.map((nome) => {
     const p = d.parametros.find((x) => x.nome === nome);
@@ -149,7 +157,8 @@ export async function salvarFicha(id: string, d: DadosFicha) {
         bloqueio: d.bloqueio.trim(),
         percepcaoPassiva: d.percepcaoPassiva.trim(),
         pvAtual: inteiro(d.pvAtual),
-        pvTemp: inteiro(d.pvTemp),
+        pvTemp,
+        pvTempTexto,
         pvMax: inteiro(d.pvMax),
         peAtual: inteiro(d.peAtual),
         peTemp: inteiro(d.peTemp),
@@ -185,6 +194,9 @@ export async function salvarFicha(id: string, d: DadosFicha) {
         bloqueio: e.bloqueio,
         inaptidao: e.inaptidao,
         propriedade: e.propriedade,
+        reducaoGeral: e.reducaoGeral,
+        reducaoFisica: e.reducaoFisica,
+        reducaoMagica: e.reducaoMagica,
         ordem: i,
       })),
     }),
@@ -218,6 +230,7 @@ export async function salvarFicha(id: string, d: DadosFicha) {
         nome: it.nome,
         quantidade: inteiro(it.quantidade, 1),
         peso: it.peso,
+        pontosUnidade: limitar(inteiro(it.pontosUnidade), 0, 999),
         categoria: it.categoria,
         descricao: it.descricao,
         ordem: i,

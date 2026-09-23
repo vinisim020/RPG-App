@@ -47,13 +47,14 @@ model Personagem {
   bloqueio         String @default("")
   percepcaoPassiva String @default("")
 
-  pvAtual  Int @default(0)
-  pvTemp   Int @default(0)
-  pvMax    Int @default(0)
-  peAtual  Int @default(0)
-  peTemp   Int @default(0)
-  peMax    Int @default(0)
-  exaustao Int @default(0) // 0 a 5
+  pvAtual     Int    @default(0)
+  pvTemp      Int    @default(0) // soma de pvTempTexto; usado pela Iniciativa/Combatente
+  pvTempTexto String @default("") // texto digitado pelo jogador, ex.: "16+5"
+  pvMax       Int    @default(0)
+  peAtual     Int    @default(0)
+  peTemp      Int    @default(0)
+  peMax       Int    @default(0)
+  exaustao    Int    @default(0) // 0 a 5
 
   moedasPrata      Int @default(0)
   moedasOuro       Int @default(0)
@@ -108,17 +109,20 @@ enum TipoEquipamento {
 }
 
 model Equipamento {
-  id           String          @id @default(cuid())
-  personagem   Personagem      @relation(fields: [personagemId], references: [id], onDelete: Cascade)
-  personagemId String
-  tipo         TipoEquipamento
-  nome         String          @default("")
-  dano         String          @default("") // armas
-  alcance      String          @default("") // armas
-  bloqueio     String          @default("") // armaduras / escudos
-  inaptidao    String          @default("") // armaduras / escudos
-  propriedade  String          @default("")
-  ordem        Int             @default(0)
+  id            String          @id @default(cuid())
+  personagem    Personagem      @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+  personagemId  String
+  tipo          TipoEquipamento
+  nome          String          @default("")
+  dano          String          @default("") // armas
+  alcance       String          @default("") // armas
+  bloqueio      String          @default("") // armaduras / escudos
+  inaptidao     String          @default("") // armaduras / escudos
+  propriedade   String          @default("")
+  reducaoGeral  String          @default("") // RD geral, armaduras / escudos
+  reducaoFisica String          @default("") // RD física, armaduras / escudos
+  reducaoMagica String          @default("") // RD mágica, armaduras / escudos
+  ordem         Int             @default(0)
 
   @@index([personagemId])
 }
@@ -153,15 +157,16 @@ model HabilidadeCaminho {
 }
 
 model ItemInventario {
-  id           String     @id @default(cuid())
-  personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
-  personagemId String
-  nome         String     @default("")
-  quantidade   Int        @default(1)
-  peso         String     @default("")
-  categoria    String     @default("")
-  descricao    String     @default("")
-  ordem        Int        @default(0)
+  id            String     @id @default(cuid())
+  personagem    Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
+  personagemId  String
+  nome          String     @default("")
+  quantidade    Int        @default(1)
+  peso          String     @default("")
+  pontosUnidade Int        @default(0) // custo na Pontuação de Unidade, por item da pilha
+  categoria     String     @default("")
+  descricao     String     @default("")
+  ordem         Int        @default(0)
 
   @@index([personagemId])
 }
