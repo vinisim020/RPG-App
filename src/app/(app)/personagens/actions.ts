@@ -78,7 +78,7 @@ export type DadosFicha = {
   maestrias: string;
   habilidadesLegado: string;
   anotacoes: string;
-  parametros: { nome: string; valor: number }[];
+  parametros: { nome: string; valor: number; extra: number }[];
   conhecimentos: { nome: string; valor: number; temMaestria: boolean }[];
   equipamentos: {
     tipo: "ARMA" | "ARMADURA";
@@ -118,10 +118,14 @@ const inteiro = (v: unknown, padrao = 0) => {
 export async function salvarFicha(id: string, d: DadosFicha) {
   await podeMexer(id);
 
-  const parametros = PARAMETROS.map((nome) => ({
-    nome,
-    valor: limitar(inteiro(d.parametros.find((p) => p.nome === nome)?.valor), 0, ESCALA_MAX),
-  }));
+  const parametros = PARAMETROS.map((nome) => {
+    const p = d.parametros.find((x) => x.nome === nome);
+    return {
+      nome,
+      valor: limitar(inteiro(p?.valor), 0, ESCALA_MAX),
+      extra: limitar(inteiro(p?.extra), 0, 99),
+    };
+  });
 
   const conhecimentos = CONHECIMENTOS.map((nome) => {
     const c = d.conhecimentos.find((x) => x.nome === nome);
