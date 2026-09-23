@@ -85,7 +85,8 @@ model Parametro {
   personagem   Personagem @relation(fields: [personagemId], references: [id], onDelete: Cascade)
   personagemId String
   nome         String // um dos 8 fixos
-  valor        Int        @default(0) // 0 a 6
+  valor        Int        @default(0) // 0 a 6, os quadrados
+  extra        Int        @default(0) // pontos que ultrapassam os 6 quadrados
 
   @@unique([personagemId, nome])
 }

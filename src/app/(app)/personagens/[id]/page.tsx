@@ -66,10 +66,10 @@ export default async function PersonagemPage({
     maestrias: p.maestrias,
     habilidadesLegado: p.habilidadesLegado,
     anotacoes: p.anotacoes,
-    parametros: PARAMETROS.map((nome) => ({
-      nome,
-      valor: p.parametros.find((x) => x.nome === nome)?.valor ?? 0,
-    })),
+    parametros: PARAMETROS.map((nome) => {
+      const x = p.parametros.find((x) => x.nome === nome);
+      return { nome, valor: x?.valor ?? 0, extra: x?.extra ?? 0 };
+    }),
     conhecimentos: CONHECIMENTOS.map((nome) => {
       const c = p.conhecimentos.find((x) => x.nome === nome);
       return { nome, valor: c?.valor ?? 0, temMaestria: c?.temMaestria ?? false };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Barra, Cartao, TituloSecao } from "@/components/ui";
 import {
@@ -28,6 +28,45 @@ import {
 } from "../actions";
 import { SeletorHabilidades, type CatalogoHabilidadeItem } from "./SeletorHabilidades";
 import { SeletorEquipamentos, type CatalogoEquipamentoItem } from "./SeletorEquipamentos";
+
+const RETRATO_LADO_MAX = 480;
+
+/** Redimensiona e recomprime a imagem no navegador antes de gravar como
+ *  data URL na ficha, para não guardar fotos de celular gigantes no banco. */
+async function comprimirImagem(arquivo: File): Promise<string> {
+  const dataUrlOriginal = await new Promise<string>((resolve, reject) => {
+    const leitor = new FileReader();
+    leitor.onload = () => resolve(leitor.result as string);
+    leitor.onerror = () => reject(leitor.error);
+    leitor.readAsDataURL(arquivo);
+  });
+
+  const imagem = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error("Imagem inválida."));
+    el.src = dataUrlOriginal;
+  });
+
+  let { width, height } = imagem;
+  if (width > RETRATO_LADO_MAX || height > RETRATO_LADO_MAX) {
+    if (width > height) {
+      height = Math.round((height * RETRATO_LADO_MAX) / width);
+      width = RETRATO_LADO_MAX;
+    } else {
+      width = Math.round((width * RETRATO_LADO_MAX) / height);
+      height = RETRATO_LADO_MAX;
+    }
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return dataUrlOriginal;
+  ctx.drawImage(imagem, 0, 0, width, height);
+  return canvas.toDataURL("image/jpeg", 0.85);
+}
 
 export function Ficha({
   id,
@@ -78,10 +117,13 @@ export function Ficha({
     }
   }, [id, d, router]);
 
-  const setParametro = (nome: string, valor: number) =>
+  const setParametro = (
+    nome: string,
+    patch: Partial<DadosFicha["parametros"][number]>
+  ) =>
     atualizar((p) => ({
       ...p,
-      parametros: p.parametros.map((x) => (x.nome === nome ? { ...x, valor } : x)),
+      parametros: p.parametros.map((x) => (x.nome === nome ? { ...x, ...patch } : x)),
     }));
 
   const setConhecimento = (
@@ -151,6 +193,20 @@ export function Ficha({
       ],
     }));
 
+  const inputRetratoRef = useRef<HTMLInputElement>(null);
+
+  async function aoEscolherRetrato(e: React.ChangeEvent<HTMLInputElement>) {
+    const arquivo = e.target.files?.[0];
+    e.target.value = ""; // permite escolher o mesmo arquivo de novo depois
+    if (!arquivo) return;
+    try {
+      const dataUrl = await comprimirImagem(arquivo);
+      set("retratoUrl", dataUrl);
+    } catch {
+      setErro("Não foi possível processar essa imagem.");
+    }
+  }
+
   return (
     <div>
       {/* cabecalho ------------------------------------------------------- */}
@@ -204,13 +260,32 @@ export function Ficha({
                 placeholder={donoNome}
               />
             </Campo>
-            <Campo rotulo="Retrato (URL)">
-              <input
-                className="campo campo-caixa text-[13px]"
-                value={d.retratoUrl}
-                onChange={(e) => set("retratoUrl", e.target.value)}
-                placeholder="https://..."
-              />
+            <Campo rotulo="Retrato">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="btn btn-mini"
+                  onClick={() => inputRetratoRef.current?.click()}
+                >
+                  {d.retratoUrl ? "Trocar foto" : "Enviar foto"}
+                </button>
+                {d.retratoUrl ? (
+                  <button
+                    type="button"
+                    className="btn btn-mini"
+                    onClick={() => set("retratoUrl", "")}
+                  >
+                    Remover
+                  </button>
+                ) : null}
+                <input
+                  ref={inputRetratoRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={aoEscolherRetrato}
+                />
+              </div>
             </Campo>
           </div>
         </div>
@@ -310,25 +385,42 @@ export function Ficha({
 
       {/* parametros ------------------------------------------------------ */}
       <TituloSecao>Parâmetros</TituloSecao>
-      <div className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="mb-2 grid grid-cols-2 gap-3 md:grid-cols-4">
         {PARAMETROS.map((nome) => {
-          const valor = d.parametros.find((p) => p.nome === nome)?.valor ?? 0;
+          const p = d.parametros.find((x) => x.nome === nome);
+          const valor = p?.valor ?? 0;
+          const extra = p?.extra ?? 0;
           return (
             <Cartao key={nome} className="px-3.5 py-3">
               <div className="mb-2 flex items-baseline justify-between gap-2">
                 <span className="text-[12.5px] text-fg-soft">{nome}</span>
-                <span className="text-[12px] tabular-nums text-faint">{valor}</span>
+                <span className="text-[12px] tabular-nums text-faint" title="Total (quadrados + extra)">
+                  {valor + extra}
+                </span>
               </div>
-              <Pontos
-                valor={valor}
-                max={ESCALA_MAX}
-                tamanho={12}
-                onChange={(v) => setParametro(nome, v)}
-              />
+              <div className="flex items-center gap-2">
+                <Pontos
+                  valor={valor}
+                  max={ESCALA_MAX}
+                  tamanho={12}
+                  onChange={(v) => setParametro(nome, { valor: v })}
+                />
+                <InputNum
+                  valor={extra}
+                  min={0}
+                  max={99}
+                  onChange={(v) => setParametro(nome, { extra: v })}
+                  className="campo-caixa w-[34px] text-center text-[11px]"
+                />
+              </div>
             </Cartao>
           );
         })}
       </div>
+      <p className="mb-8 text-[11px] text-faint">
+        Os 6 quadrados marcam a escala normal; use o campo ao lado para pontos que ultrapassam
+        isso. O número no canto soma os dois.
+      </p>
 
       {/* conhecimentos --------------------------------------------------- */}
       <TituloSecao>Conhecimentos</TituloSecao>
