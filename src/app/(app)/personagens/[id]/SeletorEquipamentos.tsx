@@ -65,7 +65,6 @@ export function SeletorEquipamentos({
       onAdicionarItem({
         nome: c.nome,
         quantidade: 1,
-        peso: c.unidade,
         pontosUnidade: 0,
         categoria: c.categoria,
         descricao: [c.propriedadeOuNotas, c.precoMp ? `Preço: ${c.precoMp} MP` : ""]

@@ -162,7 +162,6 @@ model ItemInventario {
   personagemId  String
   nome          String     @default("")
   quantidade    Int        @default(1)
-  peso          String     @default("")
   pontosUnidade Int        @default(0) // custo na Pontuação de Unidade, por item da pilha
   categoria     String     @default("")
   descricao     String     @default("")
@@ -296,7 +295,6 @@ model Recompensa {
   descricao  String @default("")
   categoria  String @default("")
   quantidade Int    @default(1)
-  peso       String @default("")
 
   personagemDestino   Personagem? @relation(fields: [personagemDestinoId], references: [id], onDelete: SetNull)
   personagemDestinoId String?

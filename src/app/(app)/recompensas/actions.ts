@@ -11,7 +11,6 @@ export type DadosRecompensa = {
   descricao: string;
   categoria: string;
   quantidade: number;
-  peso: string;
   personagemDestinoId: string | null;
 };
 
@@ -28,7 +27,6 @@ export async function salvarRecompensa(id: string | null, d: DadosRecompensa) {
     descricao: d.descricao,
     categoria: d.categoria.trim(),
     quantidade: Math.max(1, inteiro(d.quantidade)),
-    peso: d.peso.trim(),
     personagemDestinoId: d.personagemDestinoId || null,
   };
 
@@ -70,7 +68,6 @@ export async function entregarRecompensa(
         personagemId: destino,
         nome: r.nome,
         quantidade: r.quantidade,
-        peso: r.peso,
         categoria: r.categoria,
         descricao: r.descricao,
         ordem: (ultimo?.ordem ?? -1) + 1,

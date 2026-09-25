@@ -317,14 +317,14 @@ export function Ficha({
             <InputNum
               valor={d.pvAtual}
               onChange={(v) => set("pvAtual", v)}
-              className="campo-caixa w-[62px] text-center text-[20px] font-bold"
+              className="campo-caixa w-[54px] text-center text-[13px]"
             />
             <span className="text-[13px] text-faint">/</span>
             <InputNum
               valor={d.pvMax}
               min={0}
               onChange={(v) => set("pvMax", v)}
-              className="campo-caixa w-[54px] text-center text-[13px]"
+              className="campo-caixa w-[64px] text-center text-[20px] font-bold"
             />
             <span className="ml-auto text-[10.5px] text-ambar">temp</span>
             <input
@@ -364,14 +364,14 @@ export function Ficha({
             <InputNum
               valor={d.peAtual}
               onChange={(v) => set("peAtual", v)}
-              className="campo-caixa w-[62px] text-center text-[20px] font-bold"
+              className="campo-caixa w-[54px] text-center text-[13px]"
             />
             <span className="text-[13px] text-faint">/</span>
             <InputNum
               valor={d.peMax}
               min={0}
               onChange={(v) => set("peMax", v)}
-              className="campo-caixa w-[54px] text-center text-[13px]"
+              className="campo-caixa w-[64px] text-center text-[20px] font-bold"
             />
             <span className="ml-auto text-[10.5px] text-ambar">temp</span>
             <InputNum
@@ -856,10 +856,9 @@ export function Ficha({
       </Cartao>
 
       <Cartao className="mb-2 overflow-hidden">
-        <div className="grid grid-cols-[2fr_0.6fr_0.7fr_0.6fr_0.9fr_auto] gap-2 border-b border-line px-4 py-2.5 text-[11px] uppercase tracking-[0.04em] text-faint">
+        <div className="grid grid-cols-[2.4fr_0.7fr_0.7fr_1fr_auto] gap-2 border-b border-line px-4 py-2.5 text-[11px] uppercase tracking-[0.04em] text-faint">
           <span>Item</span>
           <span>Qtd.</span>
-          <span>Peso</span>
           <span title="Pontos de Unidade consumidos por item">Unid.</span>
           <span>Categoria</span>
           <span />
@@ -869,7 +868,7 @@ export function Ficha({
         ) : (
           d.itens.map((it, i) => (
             <div key={i} className="border-b border-line-soft px-3 py-1.5 last:border-0">
-              <div className="grid grid-cols-[2fr_0.6fr_0.7fr_0.6fr_0.9fr_auto] items-center gap-2">
+              <div className="grid grid-cols-[2.4fr_0.7fr_0.7fr_1fr_auto] items-center gap-2">
                 <input
                   className="campo text-[13.5px]"
                   value={it.nome}
@@ -881,11 +880,6 @@ export function Ficha({
                   min={0}
                   onChange={(v) => setItem(i, { quantidade: v })}
                   className="text-[13px]"
-                />
-                <input
-                  className="campo text-[13px]"
-                  value={it.peso}
-                  onChange={(e) => setItem(i, { peso: e.target.value })}
                 />
                 <InputNum
                   valor={it.pontosUnidade}
@@ -921,7 +915,7 @@ export function Ficha({
             ...p,
             itens: [
               ...p.itens,
-              { nome: "", quantidade: 1, peso: "", pontosUnidade: 0, categoria: "", descricao: "" },
+              { nome: "", quantidade: 1, pontosUnidade: 0, categoria: "", descricao: "" },
             ],
           }))
         }

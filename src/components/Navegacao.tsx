@@ -33,7 +33,7 @@ export function Navegacao({
   return (
     <>
       {/* Desktop */}
-      <aside className="hidden w-[220px] flex-none flex-col gap-1.5 border-r border-line bg-panel px-[18px] py-7 md:flex">
+      <aside className="hidden w-[220px] flex-none flex-col gap-1.5 self-start overflow-y-auto border-r border-line bg-panel px-[18px] py-7 md:sticky md:top-0 md:flex md:h-screen">
         <div className="mx-1.5 mb-1">
           <span className="titulo text-[23px] tracking-[0.02em]">Gaia</span>
         </div>
