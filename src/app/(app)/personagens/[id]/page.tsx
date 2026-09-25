@@ -101,7 +101,6 @@ export default async function PersonagemPage({
     itens: p.itens.map((it) => ({
       nome: it.nome,
       quantidade: it.quantidade,
-      peso: it.peso,
       pontosUnidade: it.pontosUnidade,
       categoria: it.categoria,
       descricao: it.descricao,

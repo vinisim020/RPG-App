@@ -107,7 +107,6 @@ export type DadosFicha = {
   itens: {
     nome: string;
     quantidade: number;
-    peso: string;
     pontosUnidade: number;
     categoria: string;
     descricao: string;
@@ -229,7 +228,6 @@ export async function salvarFicha(id: string, d: DadosFicha) {
         personagemId: id,
         nome: it.nome,
         quantidade: inteiro(it.quantidade, 1),
-        peso: it.peso,
         pontosUnidade: limitar(inteiro(it.pontosUnidade), 0, 999),
         categoria: it.categoria,
         descricao: it.descricao,

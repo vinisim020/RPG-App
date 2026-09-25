@@ -26,7 +26,6 @@ const VAZIA: DadosRecompensa = {
   descricao: "",
   categoria: "",
   quantidade: 1,
-  peso: "",
   personagemDestinoId: null,
 };
 
@@ -84,7 +83,6 @@ export function Recompensas({
       descricao: r.descricao,
       categoria: r.categoria,
       quantidade: r.quantidade,
-      peso: r.peso,
       personagemDestinoId: r.personagemDestinoId,
     });
     setErro(null);
@@ -112,7 +110,6 @@ export function Recompensas({
                 <span className="titulo text-[17px] font-semibold">{r.nome}</span>
                 {r.quantidade > 1 ? <Pilula>x{r.quantidade}</Pilula> : null}
                 {r.categoria ? <Pilula>{r.categoria}</Pilula> : null}
-                {r.peso ? <span className="text-[11.5px] text-faint">{r.peso}</span> : null}
                 <span className="ml-auto text-[12px] text-muted">
                   {r.destinoNome ? (
                     <>
@@ -218,7 +215,7 @@ export function Recompensas({
         largura={560}
       >
         <div className="flex flex-col gap-3.5">
-          <div className="grid gap-3 sm:grid-cols-[2fr_0.7fr_1fr]">
+          <div className="grid gap-3 sm:grid-cols-[2fr_1fr]">
             <Campo rotulo="Nome">
               <input
                 autoFocus
@@ -233,13 +230,6 @@ export function Recompensas({
                 min={1}
                 onChange={(v) => campo("quantidade", v)}
                 className="campo-caixa text-[13px]"
-              />
-            </Campo>
-            <Campo rotulo="Peso">
-              <input
-                className="campo campo-caixa text-[13px]"
-                value={form.peso}
-                onChange={(e) => campo("peso", e.target.value)}
               />
             </Campo>
           </div>

@@ -26,7 +26,6 @@ export default async function RecompensasPage() {
     descricao: r.descricao,
     categoria: r.categoria,
     quantidade: r.quantidade,
-    peso: r.peso,
     personagemDestinoId: r.personagemDestinoId,
     status: r.status,
     entregueEm: r.entregueEm ? r.entregueEm.toISOString() : null,
